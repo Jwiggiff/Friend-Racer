@@ -6,21 +6,30 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Main extends Application {
     private boolean jump = false;
     private boolean pause = false;
     private boolean returnToGame = false;
+    private Pane root = new Pane();
     private Canvas canvas = new Canvas(800, 600);
     private GraphicsContext gc = canvas.getGraphicsContext2D();
+    private Image image = new Image("http://vignette2.wikia.nocookie.net/geometry-dash/images/f/fa/Ball05.png/revision/latest?cb=20150325094324");
+    private ImageView imageView = new ImageView(image);
     private double[] xVals = {435, 455, 445};
     private double[] yVals = {600, 600, 570};
     private double[] xVals1 = {455, 475, 465};
@@ -53,10 +62,14 @@ public class Main extends Application {
         gc.fillPolygon(xVals4, yVals4, 3);
         gc.fillPolygon(xVals5, yVals5, 3);
         gc.fillPolygon(xVals6, yVals6, 3);
+        imageView.setX(10);
+        imageView.setY(50);
+        imageView.setFitWidth(40);
+        imageView.setFitHeight(40);
+        root.getChildren().addAll(canvas, imageView);
     }
 
     public void start(Stage stage) {
-        Group root = new Group();
         Scene scene = new Scene(root);
         ArrayList<Integer[]> platforms = new ArrayList<Integer[]>(); //format: y, start x, end x
         ArrayList<Integer[]> obstacles = new ArrayList<Integer[]>(); //format: start x, start y, end x, end y
@@ -65,12 +78,10 @@ public class Main extends Application {
         p.setPos(50, 500);
         p.render(gc);
 
+        drawWorld();
+
         stage.setTitle("Friend Racer");
         stage.setScene(scene);
-
-        root.getChildren().add(canvas);
-
-        drawWorld();
 
         platforms.add(new Integer[]{575, 200, 275});
         platforms.add(new Integer[]{530, 295, 375});
@@ -167,7 +178,7 @@ public class Main extends Application {
                         jump = false;
                     }
                     if (jump && playerPlatformStatus()[0] == 0) {
-                        p.addVel(0, -5);
+                        p.addVel(0, -15);
                         jump = false;
                         startGravityTime = currentTime;
                     }
