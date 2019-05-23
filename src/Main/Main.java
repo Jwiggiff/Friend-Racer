@@ -8,24 +8,18 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class Main extends Application {
     private boolean jump = false;
     private boolean pause = false;
     private boolean returnToGame = false;
-    private Pane root = new Pane();
+    private boolean respawn = false;
+    private Group root = new Group();
     private Canvas canvas = new Canvas(800, 600);
     private GraphicsContext gc = canvas.getGraphicsContext2D();
     private Image image = new Image("http://vignette2.wikia.nocookie.net/geometry-dash/images/f/fa/Ball05.png/revision/latest?cb=20150325094324");
@@ -62,11 +56,10 @@ public class Main extends Application {
         gc.fillPolygon(xVals4, yVals4, 3);
         gc.fillPolygon(xVals5, yVals5, 3);
         gc.fillPolygon(xVals6, yVals6, 3);
-        imageView.setX(10);
-        imageView.setY(50);
-        imageView.setFitWidth(40);
-        imageView.setFitHeight(40);
-        root.getChildren().addAll(canvas, imageView);
+        imageView.setX(175);
+        imageView.setY(575);
+        imageView.setFitWidth(25);
+        imageView.setFitHeight(25);
     }
 
     public void start(Stage stage) {
@@ -77,6 +70,9 @@ public class Main extends Application {
 
         p.setPos(50, 500);
         p.render(gc);
+
+        root.getChildren().add(canvas);
+        root.getChildren().add(imageView);
 
         drawWorld();
 
@@ -96,19 +92,19 @@ public class Main extends Application {
         obstacles.add(new Integer[]{555, 400, 565, 410});
         obstacles.add(new Integer[]{265, 565, 275, 575});
 
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case R:
-                        returnToGame = true;
-                    case I:
-                        pause = true;
-                        break;
-                    case SPACE:
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case R:
+                    returnToGame = true;
+                    break;
+                case I:
+                    pause = true;
+                    break;
+                case SPACE:
+                    if (!respawn) {
                         jump = true;
-                        break;
-                }
+                    }
+                    break;
             }
         });
 
@@ -117,7 +113,7 @@ public class Main extends Application {
         new AnimationTimer() {
             long startTime = -1;
             long startGravityTime = -1;
-            boolean respawn = false;
+            long startRespawnDelay = -1;
 
             public int[] playerPlatformStatus() { // 0: on platform, -1: above platform, 1: below platform
                 for (int i = 0; i < platforms.size(); i++) {
@@ -138,12 +134,14 @@ public class Main extends Application {
                 return false;
             }
 
-            public void respawn () {
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {}
+            public void respawn (double time) {
                 p.setPos(50, 500);
                 p.setVel(p.getVel().x, 0);
+                if (time <= 0.25 || (time > 0.5 && time <= 0.75) || (time > 1 && time <= 1.25) || (time > 1.5 && time <= 1.75)) {
+                    p.render(gc);
+                } else {
+                    p.erase(gc);
+                }
             }
 
             public void pause() {
@@ -152,53 +150,59 @@ public class Main extends Application {
                 gc.setFill(Color.GREEN);
                 gc.fillText("GAME IS PAUSED, PRESS \'r\' TO CONTINUE", 200, 200);
                 gc.setFill(Color.RED);
+                imageView.setImage(null);
             }
 
             @Override
             public void handle(long currentTime) {
+                imageView.setRotate(imageView.getRotate() - 2);
                 if (pause) {
                     pause();
                 }
                 //TODO: have a counter var that keeps returnToGame at true for 3 iterations, so that there's a 3-2-1 countdown before resuming
                 if (returnToGame) {
+                    imageView.setImage(image);
                     drawWorld();
                     pause = false;
                     returnToGame = false;
                 }
                 if (!pause) {
-                    if (respawn) {
-                        respawn();
-                        respawn = false;
-                        jump = false;
-                    }
-                    if (startTime == -1)
-                        startTime = currentTime;
-                    p.erase(gc);
-                    if (jump && playerPlatformStatus()[0] == -1) {
-                        jump = false;
-                    }
-                    if (jump && playerPlatformStatus()[0] == 0) {
-                        p.addVel(0, -15);
-                        jump = false;
-                        startGravityTime = currentTime;
-                    }
-                    if (startTime == currentTime) {
-                        p.addVel(3, 0);
-                    }
-                    if (playerPlatformStatus()[0] < 0) {
-                        p.addVel(0, (int) Math.round(9.8 * ((currentTime - startGravityTime) / 1000000000.0)));
-                    }
-                    if (playerPlatformStatus()[0] == 1) {
-                        p.setPos(p.getPos().x, platforms.get(playerPlatformStatus()[1])[0] - p.getHeight() - 1);
-                        p.setVel(p.getVel().x, 0);
-                        drawWorld();
-                    }
-                    p.update();
-                    p.render(gc);
-                    if (hitObstacle()) {
-                        respawn = true;
+                    if (respawn && (currentTime-startRespawnDelay)/1000000000.0 <= 2) {
+                        respawn((currentTime-startRespawnDelay)/1000000000.0);
+                    } else {
+                        if (respawn) {
+                            respawn = false;
+                        }
+                        if (startTime == -1)
+                            startTime = currentTime;
                         p.erase(gc);
-                        drawWorld();
+                        if (jump && playerPlatformStatus()[0] == -1) {
+                            jump = false;
+                        }
+                        if (jump && playerPlatformStatus()[0] == 0) {
+                            p.addVel(0, -15);
+                            jump = false;
+                            startGravityTime = currentTime;
+                        }
+                        if (startTime == currentTime) {
+                            p.addVel(3, 0);
+                        }
+                        if (playerPlatformStatus()[0] < 0) {
+                            p.addVel(0, (int) Math.round(9.8 * ((currentTime - startGravityTime) / 1000000000.0)));
+                        }
+                        if (playerPlatformStatus()[0] == 1) {
+                            p.setPos(p.getPos().x, platforms.get(playerPlatformStatus()[1])[0] - p.getHeight() - 1);
+                            p.setVel(p.getVel().x, 0);
+                            drawWorld();
+                        }
+                        p.update();
+                        p.render(gc);
+                        if (hitObstacle()) {
+                            respawn = true;
+                            startRespawnDelay = currentTime;
+                            p.erase(gc);
+                            drawWorld();
+                        }
                     }
                 }
             }
