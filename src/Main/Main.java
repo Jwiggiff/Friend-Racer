@@ -12,6 +12,8 @@ import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -22,8 +24,8 @@ public class Main extends Application {
     private Group root = new Group();
     private Canvas canvas = new Canvas(800, 600);
     private GraphicsContext gc = canvas.getGraphicsContext2D();
-    private Image image = new Image("http://vignette2.wikia.nocookie.net/geometry-dash/images/f/fa/Ball05.png/revision/latest?cb=20150325094324");
-    private ImageView imageView = new ImageView(image);
+    private static Image image;
+    private static ImageView imageView;
     private double[] xVals = {435, 455, 445};
     private double[] yVals = {600, 600, 570};
     private double[] xVals1 = {455, 475, 465};
@@ -38,7 +40,15 @@ public class Main extends Application {
     private double[] yVals6 = {575, 575, 565};
 
     public static void main(String[] args) {
+        instantiateImages();
         launch(args);
+    }
+
+    private static void instantiateImages() {
+        try {
+            image = new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\rotating_blades\\blade_1.png"));
+        } catch (Exception e) {}
+        imageView = new ImageView(image);
     }
 
     private void drawWorld() {
@@ -91,6 +101,7 @@ public class Main extends Application {
         obstacles.add(new Integer[]{460, 460, 470, 470});
         obstacles.add(new Integer[]{555, 400, 565, 410});
         obstacles.add(new Integer[]{265, 565, 275, 575});
+        obstacles.add(new Integer[]{175, 575, 200, 600});
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -114,6 +125,7 @@ public class Main extends Application {
             long startTime = -1;
             long startGravityTime = -1;
             long startRespawnDelay = -1;
+            long startReturnCountdown = -1;
 
             public int[] playerPlatformStatus() { // 0: on platform, -1: above platform, 1: below platform
                 for (int i = 0; i < platforms.size(); i++) {
@@ -155,16 +167,31 @@ public class Main extends Application {
 
             @Override
             public void handle(long currentTime) {
-                imageView.setRotate(imageView.getRotate() - 2);
+                if (!pause && !respawn) {
+                    imageView.setRotate(imageView.getRotate() + 4);
+                }
                 if (pause) {
                     pause();
                 }
-                //TODO: have a counter var that keeps returnToGame at true for 3 iterations, so that there's a 3-2-1 countdown before resuming
                 if (returnToGame) {
+                    if (startReturnCountdown == -1) {
+                        startReturnCountdown = currentTime;
+                    }
                     imageView.setImage(image);
                     drawWorld();
-                    pause = false;
-                    returnToGame = false;
+                    p.render(gc);
+                    gc.setFill(Color.GREEN);
+                    if ((currentTime-startReturnCountdown)/1000000000.0 <= 1) {
+                        gc.fillText("3", 50, 50);
+                    } else if ((currentTime-startReturnCountdown)/1000000000.0 <= 2) {
+                        gc.fillText("2", 50, 50);
+                    } else if ((currentTime-startReturnCountdown)/1000000000.0 <= 3) {
+                        gc.fillText("1", 50, 50);
+                    } else {
+                        pause = false;
+                        returnToGame = false;
+                        startReturnCountdown = -1;
+                    }
                 }
                 if (!pause) {
                     if (respawn && (currentTime-startRespawnDelay)/1000000000.0 <= 2) {
@@ -190,12 +217,12 @@ public class Main extends Application {
                         if (playerPlatformStatus()[0] < 0) {
                             p.addVel(0, (int) Math.round(9.8 * ((currentTime - startGravityTime) / 1000000000.0)));
                         }
+                        p.update();
                         if (playerPlatformStatus()[0] == 1) {
                             p.setPos(p.getPos().x, platforms.get(playerPlatformStatus()[1])[0] - p.getHeight() - 1);
                             p.setVel(p.getVel().x, 0);
                             drawWorld();
                         }
-                        p.update();
                         p.render(gc);
                         if (hitObstacle()) {
                             respawn = true;
