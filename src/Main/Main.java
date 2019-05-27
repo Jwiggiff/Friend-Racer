@@ -25,10 +25,6 @@ public class Main extends Application {
     private GraphicsContext gc = canvas.getGraphicsContext2D();
     private Sprite player = null;
     private SpinningSprite rotating_blade = null;
-    private double[] xVals = {435, 455, 445};
-    private double[] yVals = {600, 600, 570};
-    private double[] xVals1 = {455, 475, 465};
-    private double[] xVals2 = {475, 495, 485};
     private Sprite platform1 = null;
     private Sprite platform2 = null;
     private Sprite platform3 = null;
@@ -56,10 +52,6 @@ public class Main extends Application {
         spike2.render(gc);
         spike3.render(gc);
         spike4.render(gc);
-
-        gc.fillPolygon(xVals, yVals, 3);
-        gc.fillPolygon(xVals1, yVals, 3);
-        gc.fillPolygon(xVals2, yVals, 3);
     }
 
     public void start(Stage stage) {
@@ -140,16 +132,16 @@ public class Main extends Application {
             long startReturnCountdown = -1;
 
             //TODO: make the world scroll past
-            /*public void scrollWorld() {
+            public void scrollWorld() {
                 for (Sprite s : obstacles) {
                     s.addVel(-1, 0);
-                    s.render(gc);
+                    s.update();
                 }
                 for (Sprite s : platforms) {
                     s.addVel(-1, 0);
-                    s.render(gc);
+                    s.update();
                 }
-            }*/
+            }
 
             public int[] playerPlatformStatus() {
                 if (player.getPos().y + player.getHeight() > 601) {
@@ -199,6 +191,7 @@ public class Main extends Application {
             @Override
             public void handle(long currentTime) {
                 if (!pause && !respawn) {
+                    //scrollWorld();
                     rotating_blade.rotateImage(gc, 4);
                 }
                 if (pause) {
