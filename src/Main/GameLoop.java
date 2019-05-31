@@ -35,7 +35,7 @@ public class GameLoop extends AnimationTimer {
             }
 
             //Rotate all spinning sprites
-            canvas.rotating_blade.rotateImage(canvas.gc, 3);
+            canvas.rotateSpinningSprites();
 
             //Update player
             canvas.player.update();

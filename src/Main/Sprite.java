@@ -35,10 +35,6 @@ public class Sprite {
         vel.set(x, y);
     }
 
-    public Vector2D getVel() {
-        return vel;
-    }
-
     public void update() {
         pos.add(vel);
     }
@@ -51,18 +47,11 @@ public class Sprite {
         return height;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
     public void render(GraphicsContext gc) {
-        //update();
-       // erase(gc);
         gc.drawImage(image, pos.x, pos.y, width, height);
     }
 
     public void erase(GraphicsContext gc) {
-        //update();
         gc.clearRect(pos.x,pos.y,width,height);
     }
 

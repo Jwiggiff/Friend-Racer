@@ -1,6 +1,5 @@
 package Main;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -10,9 +9,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 600;
-    Stage stage;
+    public Stage stage;
     private MainMenuScene mainMenuScene;
-    private GameScene gameScene;
 
     public void start(Stage stage) {
         mainMenuScene = new MainMenuScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
@@ -27,7 +25,7 @@ public class Main extends Application {
     }
 
     public void setGameScene() {
-        gameScene = new GameScene(WINDOW_WIDTH, WINDOW_HEIGHT);
+        GameScene gameScene = new GameScene(WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(gameScene);
     }
 
