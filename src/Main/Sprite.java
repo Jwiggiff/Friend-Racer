@@ -54,6 +54,7 @@ public class Sprite {
     }
 
     public void render(GraphicsContext gc) {
+        erase(gc);
         gc.drawImage(image, pos.x, pos.y, width, height);
     }
 

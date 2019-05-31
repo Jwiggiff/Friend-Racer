@@ -3,7 +3,6 @@ package Main;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.transform.Affine;
-import org.jetbrains.annotations.NotNull;
 
 public class SpinningSprite extends Sprite {
     private Affine rotate = new Affine();
