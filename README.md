@@ -20,13 +20,13 @@ You can download the source code for our project by clicking "Clone or Download"
 Open a Command Prompt and change into the extracted directory using the command below.
 
 ```
-$ cd /path/to/extracted/folder/
+$ cd /path/to/extracted/folder/src/
 ```
 
 Then run the following command to compile all of the source files.
 
 ```
-$ javac *.java
+$ javac Main/*.java
 ```
 
 Lastly, run the following command to run the game.
