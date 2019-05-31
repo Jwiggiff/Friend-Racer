@@ -4,6 +4,8 @@ Friend Racer is a fun side-scroller style game. Somewhat similar to Geometry Das
 
 ## Getting Started
 
+
+
 There are two options to be able to run this game yourself. You can either download the already built JAR file from the [Releases Section,](https://github.com/Jwiggiff/Friedn-Racer/releases) or you can compile and run the source code yourself by following the instructions below.
 
 ### Prerequisites
@@ -19,19 +21,19 @@ You can download the source code for our project by clicking "Clone or Download"
 
 Open a Command Prompt and change into the extracted directory using the command below.
 
-```
+```cmd
 $ cd /path/to/extracted/folder/src/
 ```
 
 Then run the following command to compile all of the source files.
 
-```
+```cmd
 $ javac Main/*.java
 ```
 
 Lastly, run the following command to run the game.
 
-```
+```cmd
 $ java Main.Main
 ```
 
