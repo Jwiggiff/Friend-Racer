@@ -1,6 +1,6 @@
 # Friend Racer
 
-Friend Racer is a fun side-scroller style game. Some what similar to Geometry Dash, your character is running through a world filled with various spikes, platforms, and blades to jump over. The concept of the game is to overcome loneliness caused by social media. You can play as either Joe or Jane as the two main characters.
+Friend Racer is a fun side-scroller style game. Somewhat similar to Geometry Dash, your character is running through a world filled with various spikes, platforms, and blades to jump over. The concept of the game is to overcome loneliness caused by social media. You can play as either Joe or Jane as the two main characters.
 
 ## Getting Started
 
