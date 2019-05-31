@@ -37,5 +37,5 @@ $ java Main.Main
 
 ## Authors
 
-* Om Patel - Project Manager - [Github](https://github.com/omster8)
-* Josh Friedman - Project Member - [Github](https://github.com/Jwiggiff)
+- Om Patel - Project Manager - [GitHub](https://github.com/omster8)
+- Josh Friedman - Project Member - [GitHub](https://github.com/Jwiggiff)
