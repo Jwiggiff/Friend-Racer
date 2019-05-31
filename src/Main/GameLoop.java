@@ -3,91 +3,74 @@ package Main;
 import javafx.animation.AnimationTimer;
 
 public class GameLoop extends AnimationTimer {
-    long startTime = -1;
-    long startGravityTime = -1;
-    //TODO: do the 3-2-1 countdown when returning to the game after pausing
-    long startReturnCountdown = -1;
-
+    private GameCanvas canvas;
     static boolean jump = false;
-    GameCanvas canvas;
+    static boolean respawning = true;
+    private long startGravityTime = -1;
+
 
     public GameLoop(GameCanvas canvas) {
-        this.canvas = canvas;
         this.start();
+        this.canvas = canvas;
     }
 
     @Override
     public void handle(long currentTime) {
-        //TODO: Scroll world
-        if (startTime == -1) {
-            startTime = currentTime;
-        }
-        if (jump) {
-            startGravityTime = currentTime;
-            canvas.player.jump(canvas);
-            jump = false;
-        }
-        if (canvas.player.hitObstacle(canvas.obstacles)) {
-            canvas.player.respawn(0, canvas.gc);
-        }
+        if (!canvas.pause) {
+            //TODO: Scroll world
+            //TODO: make it so that if you press space while respawning, it doesn't jump after respawning
 
-        //Rotate all spinning sprites
-        //TODO: make a method to rotate all spinning sprites (which are stored in their own ArrayList).
-        canvas.rotating_blade.rotateImage(canvas.gc, 4);
+            //Run first frame only
+            if (startGravityTime == -1) {
+                startGravityTime = currentTime;
+                canvas.player.respawn(canvas.gc, this);
+                //canvas.player.addVel(3, 0);
+            }
 
-        //Draw world
-        canvas.drawWorld();
+            canvas.player.erase(canvas.gc);
 
-        //update player
-        canvas.player.update(canvas, canvas.gc, currentTime, startGravityTime, startTime);
-    }
+            //Run if player is floating above a platform
+            if (canvas.player.playerPlatformStatus(canvas.platforms)[0] == -1) {
+                canvas.player.applyGravity(currentTime, startGravityTime);
+            }
 
-        /*
-        if (!pause) {
-            if (respawn && (currentTime - startRespawnDelay) / 1000000000.0 <= 2) {
-                respawn((currentTime - startRespawnDelay) / 1000000000.0);
-            } else {
-                if (respawn) {
-                    respawn = false;
-                }
-                if (startTime == -1)
-                    startTime = currentTime;
-                player.erase(gc);
-                if (jump && playerPlatformStatus()[0] == -1) {
-                    jump = false;
-                }
-                if (jump && playerPlatformStatus()[0] == 0) {
-                    player.addVel(0, -15);
-                    jump = false;
-                    startGravityTime = currentTime;
-                }
-                if (startTime == currentTime) {
-                    player.addVel(3, 0);
-                }
-                if (playerPlatformStatus()[0] < 0) {
-                    player.addVel(0, (int) Math.round(9.8 * ((currentTime - startGravityTime) / 1000000000.0)));
-                }
-                player.update();
-                if (playerPlatformStatus()[0] == 1) {
-                    if (playerPlatformStatus()[1] == -1) {
-                        player.setPos(player.getPos().x, 601 - player.getHeight());
-                    } else {
-                        player.setPos(player.getPos().x, platforms.get(playerPlatformStatus()[1]).getPos().y - player.getHeight() - 1);
-                    }
-                    player.setVel(player.getVel().x, 0);
-                    drawWorld();
-                    rotating_blade.render(gc);
-                }
-                player.render(gc);
-                if (hitObstacle()) {
-                    respawn = true;
-                    startRespawnDelay = currentTime;
-                    player.erase(gc);
-                    drawWorld();
-                    rotating_blade.render(gc);
+            //Rotate all spinning sprites
+            canvas.rotating_blade.rotateImage(canvas.gc, 3);
+
+            //Update player
+            canvas.player.update();
+
+            //Collision detection for platforms
+            for (Sprite platform : canvas.platforms) {
+                if (canvas.player.intersects(platform)) {
+                    canvas.player.setPos(canvas.player.getPos().x, platform.getPos().y - canvas.player.getHeight());
+                    canvas.player.setVel(3, 0);
+                    break;
                 }
             }
-        }
-        */
-}
 
+            //More collision detection. Yay! For obstacles
+            for (Sprite obstacle : canvas.obstacles) {
+                if (canvas.player.intersects(obstacle)) {
+                    canvas.player.respawn(canvas.gc, this);
+                    respawning = true;
+                    jump = false;
+                    break;
+                }
+            }
+
+            //Run on each jump
+            if (jump && !respawning) {
+                startGravityTime = currentTime;
+                canvas.player.jump();
+                jump = false;
+            }
+
+            //Draw world
+            canvas.drawWorld();
+
+            //Render player
+            canvas.player.render(canvas.gc);
+        }
+    }
+}

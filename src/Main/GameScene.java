@@ -2,13 +2,14 @@ package Main;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import org.ietf.jgss.GSSManager;
 
 public class GameScene extends Scene {
-    GameCanvas gameCanvas;
+    private static GameCanvas gameCanvas;
     private static Group gameGroup = new Group();
 
     public GameScene(int windowWidth, int windowHeight) {
-        super(GameScene.gameGroup);
+        super(gameGroup, windowWidth, windowHeight);
         gameCanvas = new GameCanvas(windowWidth, windowHeight);
         gameGroup.getChildren().add(gameCanvas);
 
@@ -17,11 +18,18 @@ public class GameScene extends Scene {
         this.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case ESCAPE:
-                    gameCanvas.pause();
+                    if (!gameCanvas.pause) {
+                        gameCanvas.pause = true;
+                        gameCanvas.pause();
+                    } else {
+                        gameCanvas.returnToGame = true;
+                        gameCanvas.returnToGame();
+                    }
                     break;
                 case SPACE:
-                    GameLoop.jump = true;
-                    gameCanvas.player.jump(gameCanvas);
+                    if (!GameLoop.respawning && gameCanvas.player.playerPlatformStatus(gameCanvas.platforms)[0] == 0) {
+                        GameLoop.jump = true;
+                    }
                     break;
             }
         });

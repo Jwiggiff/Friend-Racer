@@ -9,23 +9,25 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class GameCanvas extends Canvas {
-    GraphicsContext gc;
-    boolean pause;
-    boolean respawn;
-    Character player;
-    SpinningSprite rotating_blade;
-    double[] xVals = {435, 455, 445};
-    double[] yVals = {600, 600, 570};
-    double[] xVals1 = {455, 475, 465};
-    double[] xVals2 = {475, 495, 485};
-    Sprite platform1;
-    Sprite platform2;
-    Sprite platform3;
-    Sprite platform4;
-    Sprite spike1;
-    Sprite spike2;
-    Sprite spike3;
-    Sprite spike4;
+    //TODO: make all instance variables private and make getters and setters
+    public GraphicsContext gc;
+    public boolean pause;
+    public boolean returnToGame;
+    public Character player;
+    public SpinningSprite rotating_blade;
+    private double[] xVals = {435, 455, 445};
+    private double[] yVals = {600, 600, 570};
+    private double[] xVals1 = {455, 475, 465};
+    private double[] xVals2 = {475, 495, 485};
+    private Sprite platform1;
+    private Sprite platform2;
+    private Sprite platform3;
+    private Sprite platform4;
+    private Sprite spike1;
+    private Sprite spike2;
+    private Sprite spike3;
+    private Sprite spike4;
+    private Sprite ground;
 
     ArrayList<Sprite> platforms = new ArrayList<Sprite>();
     ArrayList<Sprite> obstacles = new ArrayList<Sprite>();
@@ -46,7 +48,12 @@ public class GameCanvas extends Canvas {
         platforms.add(platform3);
         platforms.add(platform4);
 
-        player.setPos(20, 601 - player.getHeight());
+        ground = new Sprite(new Image("./platforms/platform_1.PNG"), 800, 1);
+        platforms.add(ground);
+        ground.setPos(0, 601);
+
+
+        player.setPos(20, 600 - player.getHeight());
         player.render(gc);
 
         platform1.setPos(295, 530);
@@ -67,24 +74,23 @@ public class GameCanvas extends Canvas {
 
     public void loadResources() {
         try {
-            player = new Character(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\running_man.png")), 40, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\running_man - erase.png")));
-            platform1 = new Sprite(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\platforms\\platform.PNG")), 80, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\platforms\\platform - erase.png")));
-            platform2 = new Sprite(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\platforms\\platform.PNG")), 80, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\platforms\\platform - erase.PNG")));
-            platform3 = new Sprite(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\platforms\\platform.PNG")), 80, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\platforms\\platform - erase.PNG")));
-            platform4 = new Sprite(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\platforms\\platform_1.PNG")), 75, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\platforms\\platform_1 - erase.PNG")));
-            spike1 = new Sprite(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\spikes\\single_spike.png")), 13, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\spikes\\single_spike - erase.png")));
-            spike2 = new Sprite(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\spikes\\single_spike.png")), 13, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\spikes\\single_spike - erase.png")));
-            spike3 = new Sprite(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\spikes\\single_spike.png")), 13, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\spikes\\single_spike - erase.png")));
-            spike4 = new Sprite(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\spikes\\single_spike.png")), 13, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\spikes\\single_spike - erase.png")));
-            rotating_blade = new SpinningSprite(new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\rotating_blades\\blade_1.png")), 25, new Image(new FileInputStream("D:\\Documents\\School Stuff\\Grade 10\\ICS 12\\ICS ISP\\Friend-Racer\\res\\rotating_blades\\blade_1 - erase.png")));
+            player = new Character(new Image("./running_man.png"), 40);
+            platform1 = new Sprite(new Image("./platforms/platform.PNG"), 80);
+            platform2 = new Sprite(new Image("./platforms/platform.PNG"), 80);
+            platform3 = new Sprite(new Image("./platforms/platform.PNG"), 80);
+            platform4 = new Sprite(new Image("./platforms/platform_1.PNG"), 75);
+            spike1 = new Sprite(new Image("./spikes/single_spike.png"), 13);
+            spike2 = new Sprite(new Image("./spikes/single_spike.png"), 13);
+            spike3 = new Sprite(new Image("./spikes/single_spike.png"), 13);
+            spike4 = new Sprite(new Image("./spikes/single_spike.png"), 13);
+            rotating_blade = new SpinningSprite(new Image("./rotating_blades/blade_1.png"), 25);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void drawWorld() {
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, 800, 600);
+        gc.clearRect(0,0,800,600);
         gc.setFill(Color.RED);
 
         platform1.render(gc);
@@ -97,6 +103,8 @@ public class GameCanvas extends Canvas {
         spike3.render(gc);
         spike4.render(gc);
 
+        ground.render(gc);
+
         rotating_blade.render(gc);
 
         gc.fillPolygon(xVals, yVals, 3);
@@ -104,14 +112,17 @@ public class GameCanvas extends Canvas {
         gc.fillPolygon(xVals2, yVals, 3);
     }
 
-    //TODO: make the pause method so that when they press escape, there is
-    // a pause screen with settings, instructions, exit, etc. and when they press escape again, there is a 3-2-1 countdown
-    // before the game continues.
     public void pause() {
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, 800, 600);
         gc.setFill(Color.GREEN);
         gc.fillText("GAME IS PAUSED, PRESS \'r\' TO CONTINUE", 200, 200);
         gc.setFill(Color.RED);
+        //TODO: make a pause and countdown 3-2-1
+    }
+
+    public void returnToGame() {
+        pause = false;
+        returnToGame = false;
     }
 }

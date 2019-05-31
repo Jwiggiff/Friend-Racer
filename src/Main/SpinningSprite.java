@@ -7,8 +7,8 @@ import javafx.scene.transform.Affine;
 public class SpinningSprite extends Sprite {
     private Affine rotate = new Affine();
 
-    public SpinningSprite(Image image, int width, Image erase) {
-        super(image, width, erase);
+    public SpinningSprite(Image image, int width) {
+        super(image, width);
     }
 
     public void rotateImage(GraphicsContext gc, double speed) {
@@ -20,7 +20,10 @@ public class SpinningSprite extends Sprite {
         gc.restore();
     }
 
-    private void rotateErase(GraphicsContext gc) { gc.drawImage(super.erase, super.pos.x - 1, super.pos.y - 1, super.width + 2, super.height + 2); }
+    private void rotateErase(GraphicsContext gc) {
+        erase(gc);
+        gc.clearRect( super.pos.x - 1, super.pos.y - 1, super.width + 2, super.height + 2);
+    }
 
     public void render(GraphicsContext gc) {
         gc.save();
