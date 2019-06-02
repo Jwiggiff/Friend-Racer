@@ -11,16 +11,23 @@ public class Main extends Application {
     private static final int WINDOW_HEIGHT = 600;
     public Stage stage;
     private MainMenuScene mainMenuScene;
+    private IntroScene introScene;
+    private static final boolean DEBUGGING = true;
 
     public void start(Stage stage) {
         mainMenuScene = new MainMenuScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
-        IntroScene introScene = new IntroScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
 
         this.stage = stage;
 
         stage.setTitle("Friend Racer");
-        //setMainMenuScene();
-        stage.setScene(introScene);
+
+        if (!DEBUGGING) {
+            introScene = new IntroScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
+            stage.setScene(introScene);
+        } else {
+            setGameScene();
+        }
+        
         stage.show();
     }
 

@@ -16,7 +16,7 @@ public class GameCanvas extends Canvas {
     public Character player;
     public ArrayList<Sprite> platforms = new ArrayList<Sprite>();
     public ArrayList<Sprite> obstacles = new ArrayList<Sprite>();
-    private ArrayList<SpinningSprite> spinningObstacles = new ArrayList<SpinningSprite>();
+    public ArrayList<SpinningSprite> spinningObstacles = new ArrayList<SpinningSprite>();
 
     public GameCanvas(int width, int height) {
         super(width, height);
@@ -70,7 +70,7 @@ public class GameCanvas extends Canvas {
         platforms.get(1).setPos(390, 470);
         platforms.get(2).setPos(485, 410);
         platforms.get(3).setPos(200, 575);
-        platforms.get(4).setPos(0, 601);
+        platforms.get(4).setPos(0, 600);
 
         obstacles.get(0).setPos(362, 510);
         obstacles.get(1).setPos(457, 450);

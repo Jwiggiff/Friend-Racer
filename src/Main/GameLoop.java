@@ -7,7 +7,7 @@ public class GameLoop extends AnimationTimer {
     static boolean jump = false;
     static boolean respawning = true;
     private long startGravityTime = -1;
-
+    private long startTime = -1;
 
     public GameLoop(GameCanvas canvas) {
         this.start();
@@ -20,11 +20,16 @@ public class GameLoop extends AnimationTimer {
             //TODO: Scroll world
             //TODO: make it so that if you press space while respawning, it doesn't jump after respawning
 
+            if (startTime == -1) {
+                startTime = currentTime;
+            }
+
+            canvas.setTranslateX(canvas.getTranslateX()-3);
+
             //Run first frame only
             if (startGravityTime == -1) {
                 startGravityTime = currentTime;
                 canvas.player.respawn(canvas.gc, this);
-                //canvas.player.addVel(3, 0);
             }
 
             canvas.player.erase(canvas.gc);
@@ -52,6 +57,14 @@ public class GameLoop extends AnimationTimer {
             //More collision detection. Yay! For obstacles
             for (Sprite obstacle : canvas.obstacles) {
                 if (canvas.player.intersects(obstacle)) {
+                    canvas.player.respawn(canvas.gc, this);
+                    respawning = true;
+                    jump = false;
+                    break;
+                }
+            }
+            for (SpinningSprite spinningObstacle : canvas.spinningObstacles) {
+                if (canvas.player.intersects(spinningObstacle)) {
                     canvas.player.respawn(canvas.gc, this);
                     respawning = true;
                     jump = false;

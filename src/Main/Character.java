@@ -39,7 +39,7 @@ public class Character extends Sprite {
         GameLoop.respawning = true;
         Timeline delay = createPauseTimerTimeline(timer, new Duration(1000));
 
-        this.setPos(20, 601 - this.getHeight());
+        this.setPos(20, 600 - this.getHeight());
         this.setVel(3, 0);
         this.update();
         this.render(gc);
