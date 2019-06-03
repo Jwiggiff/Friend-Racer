@@ -32,7 +32,7 @@ public class Character extends Sprite {
         GameLoop.respawning = true;
         Timeline delay = createPauseTimerTimeline(timer, new Duration(250));
 
-        this.setPos(20, 550 - this.getHeight());
+        this.setPos(10, 550 - this.getHeight());
         this.setVel(3, 0);
         this.render(gc);
         delay.playFromStart();
@@ -75,6 +75,8 @@ public class Character extends Sprite {
     public void jump() { this.setVel(3, -15); }
 
     public void applyGravity(long currentTime, long startGravityTime) {
-        this.addVel(0, (int) Math.round(9.8 * ((currentTime - startGravityTime) / 1000000000.0)));
+        if (this.getVel().y <= 30) {
+            this.addVel(0, (int) Math.round(9.8 * ((currentTime - startGravityTime) / 1000000000.0)));
+        }
     }
 }

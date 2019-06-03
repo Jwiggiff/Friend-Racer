@@ -32,6 +32,8 @@ public class Sprite {
         vel.add(new Vector2D(x, y));
     }
 
+    public Vector2D getVel() { return vel; }
+
     public void setVel(int x, int y) {
         vel.set(x, y);
     }
