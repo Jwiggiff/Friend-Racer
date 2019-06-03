@@ -6,9 +6,11 @@ import javafx.scene.transform.Affine;
 
 public class SpinningSprite extends Sprite {
     private Affine rotate = new Affine();
+    private int rotationDirection;
 
-    public SpinningSprite(Image image, int width) {
+    public SpinningSprite(Image image, int width, int rotationDirection) {
         super(image, width);
+        this.rotationDirection = rotationDirection;
     }
 
     public void rotateImage(GraphicsContext gc, double speed) {
@@ -30,5 +32,9 @@ public class SpinningSprite extends Sprite {
         gc.setTransform(rotate);
         gc.drawImage(image, pos.x, pos.y, width, height);
         gc.restore();
+    }
+
+    public int getRotationDirection() {
+        return rotationDirection;
     }
 }

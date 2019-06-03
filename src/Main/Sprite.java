@@ -3,6 +3,7 @@ package Main;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class Sprite {
     public Image image;
@@ -52,7 +53,8 @@ public class Sprite {
     }
 
     public void erase(GraphicsContext gc) {
-        gc.clearRect(pos.x,pos.y,width,height);
+        gc.setFill(Color.WHITE);
+        gc.fillRect(pos.x, pos.y, width, height);
     }
 
     private Rectangle2D getBoundary() {

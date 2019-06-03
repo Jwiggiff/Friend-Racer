@@ -27,7 +27,9 @@ public class Main extends Application {
         } else {
             setGameScene();
         }
-        
+
+        stage.setResizable(false);
+        stage.sizeToScene();
         stage.show();
     }
 

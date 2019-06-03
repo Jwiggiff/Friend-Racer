@@ -10,7 +10,8 @@ public class GameScene extends Scene {
 
     public GameScene(int windowWidth, int windowHeight) {
         super(gameGroup, windowWidth, windowHeight);
-        gameCanvas = new GameCanvas(windowWidth, windowHeight);
+        //TODO: windowWidth+1200 is the width of the canvas (currently 2000)
+        gameCanvas = new GameCanvas(windowWidth + 1200, windowHeight);
         gameGroup.getChildren().add(gameCanvas);
 
         new GameLoop(gameCanvas);

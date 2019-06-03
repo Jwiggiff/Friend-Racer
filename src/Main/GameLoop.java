@@ -18,13 +18,15 @@ public class GameLoop extends AnimationTimer {
     public void handle(long currentTime) {
         if (!canvas.pause) {
             //TODO: Scroll world
-            //TODO: make it so that if you press space while respawning, it doesn't jump after respawning
 
             if (startTime == -1) {
                 startTime = currentTime;
+                canvas.player.addVel(3, 0);
             }
 
-            canvas.setTranslateX(canvas.getTranslateX()-3);
+            if (canvas.player.getPos().x >= 200) {
+                canvas.setTranslateX(canvas.getTranslateX() - 3);
+            }
 
             //Run first frame only
             if (startGravityTime == -1) {
@@ -42,9 +44,6 @@ public class GameLoop extends AnimationTimer {
             //Rotate all spinning sprites
             canvas.rotateSpinningSprites();
 
-            //Update player
-            canvas.player.update();
-
             //Collision detection for platforms
             for (Sprite platform : canvas.platforms) {
                 if (canvas.player.intersects(platform)) {
@@ -57,6 +56,7 @@ public class GameLoop extends AnimationTimer {
             //More collision detection. Yay! For obstacles
             for (Sprite obstacle : canvas.obstacles) {
                 if (canvas.player.intersects(obstacle)) {
+                    canvas.setTranslateX(0);
                     canvas.player.respawn(canvas.gc, this);
                     respawning = true;
                     jump = false;
@@ -65,6 +65,7 @@ public class GameLoop extends AnimationTimer {
             }
             for (SpinningSprite spinningObstacle : canvas.spinningObstacles) {
                 if (canvas.player.intersects(spinningObstacle)) {
+                    canvas.setTranslateX(0);
                     canvas.player.respawn(canvas.gc, this);
                     respawning = true;
                     jump = false;
@@ -81,6 +82,9 @@ public class GameLoop extends AnimationTimer {
 
             //Draw world
             canvas.drawWorld();
+
+            //Update player
+            canvas.player.update();
 
             //Render player
             canvas.player.render(canvas.gc);

@@ -29,33 +29,35 @@ public class Character extends Sprite {
 
     public void respawn(GraphicsContext gc, AnimationTimer timer) {
         //TODO: make a flashing respawn - mario style!
-        /*this.setPos(20, 601 - this.getHeight());
-        this.setVel(this.getVel().x, 0);
-        if (time <= 0.25 || (time > 0.5 && time <= 0.75) || (time > 1 && time <= 1.25) || (time > 1.5 && time <= 1.75)) {
-            this.render(gc);
-        } else {
-            this.erase(gc);
-        }*/
         GameLoop.respawning = true;
-        Timeline delay = createPauseTimerTimeline(timer, new Duration(1000));
+        Timeline delay = createPauseTimerTimeline(timer, new Duration(250));
 
-        this.setPos(20, 600 - this.getHeight());
+        this.setPos(20, 550 - this.getHeight());
         this.setVel(3, 0);
-        this.update();
         this.render(gc);
         delay.playFromStart();
-        this.erase(gc);
-        delay.playFromStart();
-        this.render(gc);
-        delay.playFromStart();
-        this.erase(gc);
-        delay.playFromStart();
-        this.render(gc);
-        delay.playFromStart();
-        this.erase(gc);
-        delay.playFromStart();
-
-        delay.setOnFinished(event -> GameLoop.respawning = false);
+        delay.setOnFinished(event -> {
+            this.setPos(20, 550 - this.getHeight());
+            //this.setVel(0, 0);
+            this.erase(gc);
+            Timeline delay1 = createPauseTimerTimeline(timer, new Duration(250));
+            delay1.playFromStart();
+            delay1.setOnFinished(event1 -> {
+                this.setPos(20, 550 - this.getHeight());
+                //this.setVel(0, 0);
+                this.render(gc);
+                Timeline delay2 = createPauseTimerTimeline(timer, new Duration(250));
+                delay2.playFromStart();
+                delay2.setOnFinished(event2 -> {
+                    this.setPos(20, 550 - this.getHeight());
+                    //this.setVel(0, 0);
+                    this.erase(gc);
+                    Timeline delay3 = createPauseTimerTimeline(timer, new Duration(250));
+                    delay3.playFromStart();
+                    delay3.setOnFinished(event3 -> GameLoop.respawning = false);
+                });
+            });
+        });
     }
 
     public int[] playerPlatformStatus(ArrayList<Sprite> platforms) {
@@ -68,15 +70,6 @@ public class Character extends Sprite {
             }
         }
         return new int[]{-1, -1};
-    }
-
-    public boolean hitObstacle(ArrayList<Sprite> obstacles) {
-        for (Sprite s : obstacles) {
-            if (this.intersects(s)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void jump() { this.setVel(3, -15); }

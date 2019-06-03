@@ -37,21 +37,32 @@ public class GameCanvas extends Canvas {
             platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
             platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
             platforms.add(new Sprite(new Image("./platforms/platform_1.PNG"), 75));
-            platforms.add(new Sprite(new Image("./platforms/platform_1.PNG"), 800, 1));
+
+            for (int i = 0; i < 40; i++) {
+                platforms.add(new Sprite(new Image("./platforms/ground.PNG"), 50));
+            }
+
+            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
+            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
+            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
+            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
+            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
 
             obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
             obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
             obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
             obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
 
-            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_1.png"), 25));
+            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_1.png"), 25, 1));
+            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_2.png"), 25, 1));
+            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_3.png"), 25, -1));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void drawWorld() {
-        gc.clearRect(0,0,800,600);
+        gc.clearRect(0,0,2000,600);
         gc.setFill(Color.RED);
 
         for (Sprite s : platforms) {
@@ -66,29 +77,44 @@ public class GameCanvas extends Canvas {
     }
 
     private void setSpritePositions() {
-        platforms.get(0).setPos(295, 530);
-        platforms.get(1).setPos(390, 470);
-        platforms.get(2).setPos(485, 410);
-        platforms.get(3).setPos(200, 575);
-        platforms.get(4).setPos(0, 600);
+        platforms.get(0).setPos(295, 480);
+        platforms.get(1).setPos(390, 420);
+        platforms.get(2).setPos(485, 360);
+        platforms.get(3).setPos(200, 525);
 
-        obstacles.get(0).setPos(362, 510);
-        obstacles.get(1).setPos(457, 450);
-        obstacles.get(2).setPos(552, 390);
-        obstacles.get(3).setPos(262, 555);
+        for (int i = 4; i < 44; i++) {
+            platforms.get(i).setPos(50*(i-4), 550);
+        }
 
-        spinningObstacles.get(0).setPos(174, 575);
+        platforms.get(44).setPos(820, 515);
+        platforms.get(45).setPos(910, 480);
+        platforms.get(46).setPos(1000, 525);
+        platforms.get(47).setPos(1140, 525);
+        platforms.get(48).setPos(1230, 480);
+
+        obstacles.get(0).setPos(362, 460);
+        obstacles.get(1).setPos(457, 400);
+        obstacles.get(2).setPos(552, 340);
+        obstacles.get(3).setPos(262, 505);
+
+        spinningObstacles.get(0).setPos(174, 525);
+        spinningObstacles.get(1).setPos(875, 490);
+        spinningObstacles.get(2).setPos(1285, 455);
     }
 
     public void rotateSpinningSprites() {
         for (SpinningSprite s : spinningObstacles) {
-            s.rotateImage(gc, 3);
+            if (s.getRotationDirection() == 1) {
+                s.rotateImage(gc, 3);
+            } else {
+                s.rotateImage(gc, -3);
+            }
         }
     }
 
     public void pause() {
         gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, 800, 600);
+        gc.fillRect(0, 0, 2000, 600);
         gc.setFill(Color.GREEN);
         gc.fillText("GAME IS PAUSED, PRESS \'r\' TO CONTINUE", 200, 200);
         gc.setFill(Color.RED);
