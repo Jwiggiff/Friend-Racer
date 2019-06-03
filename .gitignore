@@ -23,8 +23,8 @@
 hs_err_pid*
 
 # IntelliJ Files #
-.idea/
 out/
+.idea/
 *.iml
 
 # Floobits Files #
