@@ -15,10 +15,12 @@ public class MainMenuLayout extends StackPane /*VBox*/ {
         VBox menuBtns = new VBox(10);
         Button startBtn = new Button("Start");
         Button instructionsBtn = new Button("How to Play");
+        Button leaderboardBtn = new Button("Leaderboard");
         Button settingsBtn = new Button("Settings");
         Button exitBtn = new Button("Exit");
         startBtn.setSkin(new MainMenuButtonSkin(startBtn));
         instructionsBtn.setSkin(new MainMenuButtonSkin(instructionsBtn));
+        ((Button) leaderboardBtn).setSkin(new MainMenuButtonSkin(leaderboardBtn));
         settingsBtn.setSkin(new MainMenuButtonSkin(settingsBtn));
         exitBtn.setSkin(new MainMenuButtonSkin(exitBtn));
 
@@ -34,10 +36,11 @@ public class MainMenuLayout extends StackPane /*VBox*/ {
 
         // Event Listeners //
         startBtn.setOnAction(e -> app.setGameScene());
+        leaderboardBtn.setOnAction(e -> app.setLeaderboardScene());
         exitBtn.setOnAction(e -> app.stage.close());
 
         menuBtns.setAlignment(Pos.CENTER_LEFT);
-        menuBtns.getChildren().addAll(startBtn,instructionsBtn,settingsBtn,exitBtn);
+        menuBtns.getChildren().addAll(startBtn,instructionsBtn,leaderboardBtn, settingsBtn,exitBtn);
         this.getChildren().addAll(title, menuBtns);
 
         this.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));

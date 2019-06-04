@@ -12,7 +12,7 @@ public class Main extends Application {
     public Stage stage;
     private MainMenuScene mainMenuScene;
     private IntroScene introScene;
-    private static final boolean DEBUGGING = true;
+    private static final boolean DEBUGGING = false;
 
     public void start(Stage stage) {
         mainMenuScene = new MainMenuScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
@@ -41,6 +41,11 @@ public class Main extends Application {
     public void setMainMenuScene() {
         stage.setScene(mainMenuScene);
         mainMenuScene.fadeIn();
+    }
+
+    public void setLeaderboardScene() {
+        LeaderboardScene leaderboardScene = new LeaderboardScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
+        stage.setScene(leaderboardScene);
     }
 
     public static void main(String[] args) {

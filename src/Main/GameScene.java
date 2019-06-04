@@ -2,6 +2,7 @@ package Main;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import org.ietf.jgss.GSSManager;
 
 public class GameScene extends Scene {
@@ -32,6 +33,8 @@ public class GameScene extends Scene {
                         GameLoop.jump = true;
                     }
                     break;
+                case A: //TESTING
+                    new Decision("this is a decision.", "OK", "Not OK", gameGroup);
             }
         });
     }
