@@ -56,10 +56,14 @@ public class GameCanvas extends Canvas {
             obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
             obstacles.add(new Sprite(new Image("./spikes/spikes_2 - upside down.png"), 40));
             obstacles.add(new Sprite(new Image("./spikes/spikes_2 - upside down.png"), 40));
+            for (int i = 0; i < 4; i++) {
+                obstacles.add(new Sprite(new Image("./ropes_chains/long_chain_piece.png"), 13));
+            }
 
             spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_1.png"), 25, 1));
             spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_2.png"), 25, 1));
             //spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_3.png"), 25, -1));
+            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/large_post.png"), 15, 1));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,32 +94,37 @@ public class GameCanvas extends Canvas {
         platforms.get(42).setPos(485, 360);
         platforms.get(43).setPos(200, 523);
 
-        platforms.get(44).setPos(720, 525);
-        platforms.get(45).setPos(820, 470);
-        platforms.get(46).setPos(920, 523);
-        platforms.get(47).setPos(1020, 470);
-        platforms.get(48).setPos(1120, 450);
-        platforms.get(49).setPos(1220, 410);
-        platforms.get(50).setPos(1375, 410);
+        platforms.get(44).setPos(820, 525);
+        platforms.get(45).setPos(920, 470);
+        platforms.get(46).setPos(1020, 523);
+        platforms.get(47).setPos(1120, 470);
+        platforms.get(48).setPos(1220, 450);
+        platforms.get(49).setPos(1320, 410);
+        platforms.get(50).setPos(1475, 410);
 
         obstacles.get(0).setPos(362, 460);
         obstacles.get(1).setPos(457, 400);
         obstacles.get(2).setPos(552, 340);
         obstacles.get(3).setPos(262, 505);
-        obstacles.get(4).setPos(1375, 408 + platforms.get(50).getHeight());
-        obstacles.get(5).setPos(1415, 408 + platforms.get(50).getHeight());
+        obstacles.get(4).setPos(1475, 408 + platforms.get(50).getHeight());
+        obstacles.get(5).setPos(1515, 408 + platforms.get(50).getHeight());
+        obstacles.get(6).setPos(730, 0);
+        obstacles.get(7).setPos(730, obstacles.get(6).getHeight());
+        obstacles.get(8).setPos(730, obstacles.get(6).getHeight()*2);
+        obstacles.get(9).setPos(730, obstacles.get(6).getHeight()*3);
 
         spinningObstacles.get(0).setPos(174, 525);
-        spinningObstacles.get(1).setPos(1175, 425);
+        spinningObstacles.get(1).setPos(1275, 425);
         //spinningObstacles.get(2).setPos(1285, 455);
+        spinningObstacles.get(2).setPos(730 + obstacles.get(6).getWidth()/2 - spinningObstacles.get(2).getWidth()/2, obstacles.get(6).getHeight()*4 - spinningObstacles.get(2).getHeight()/2);
     }
 
     public void rotateSpinningSprites() {
         for (SpinningSprite s : spinningObstacles) {
             if (s.getRotationDirection() == 1) {
-                s.rotateImage(gc, 3);
+                s.rotateImage(gc, 10);
             } else {
-                s.rotateImage(gc, -3);
+                s.rotateImage(gc, -10);
             }
         }
     }

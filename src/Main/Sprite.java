@@ -50,6 +50,8 @@ public class Sprite {
         return height;
     }
 
+    public int getWidth() { return width; }
+
     public void render(GraphicsContext gc) {
         gc.drawImage(image, pos.x, pos.y, width, height);
     }
