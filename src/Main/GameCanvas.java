@@ -56,11 +56,9 @@ public class GameCanvas extends Canvas {
             obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
             obstacles.add(new Sprite(new Image("./spikes/spikes_2 - upside down.png"), 40));
             obstacles.add(new Sprite(new Image("./spikes/spikes_2 - upside down.png"), 40));
-            obstacles.add(new Sprite(new Image("./spikes/spikes_2 - upside down.png"), 40));
-            obstacles.add(new Sprite(new Image("./spikes/spikes_2 - upside down.png"), 40));
 
             spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_1.png"), 25, 1));
-            //spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_2.png"), 25, 1));
+            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_2.png"), 25, 1));
             //spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_3.png"), 25, -1));
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,19 +96,17 @@ public class GameCanvas extends Canvas {
         platforms.get(47).setPos(1020, 470);
         platforms.get(48).setPos(1120, 450);
         platforms.get(49).setPos(1220, 410);
-        platforms.get(50).setPos(1400, 410);
+        platforms.get(50).setPos(1375, 410);
 
         obstacles.get(0).setPos(362, 460);
         obstacles.get(1).setPos(457, 400);
         obstacles.get(2).setPos(552, 340);
         obstacles.get(3).setPos(262, 505);
-        obstacles.get(4).setPos(1220, 408 + platforms.get(49).getHeight());
-        obstacles.get(5).setPos(1260, 408 + platforms.get(49).getHeight());
-        obstacles.get(6).setPos(1400, 408 + platforms.get(50).getHeight());
-        obstacles.get(7).setPos(1440, 408 + platforms.get(50).getHeight());
+        obstacles.get(4).setPos(1375, 408 + platforms.get(50).getHeight());
+        obstacles.get(5).setPos(1415, 408 + platforms.get(50).getHeight());
 
         spinningObstacles.get(0).setPos(174, 525);
-        //spinningObstacles.get(1).setPos(875, 490);
+        spinningObstacles.get(1).setPos(1175, 425);
         //spinningObstacles.get(2).setPos(1285, 455);
     }
 
