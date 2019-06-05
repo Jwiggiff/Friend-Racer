@@ -1,9 +1,6 @@
 package Main;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -58,11 +55,7 @@ public class IntroLayout extends StackPane {
     }
 
     private void loadResources() {
-        try {
-            companyLogo = new ImageView(new Image(new FileInputStream(new File("res/company_logo.png"))));
-            gameLogo = new ImageView(new Image(new FileInputStream(new File("res/game_logo.png"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        companyLogo = new ImageView(new Image(getClass().getClassLoader().getResource("company_logo.png").toString()));
+        gameLogo = new ImageView(new Image(getClass().getClassLoader().getResource("res/game_logo.png").toString()));
     }
 }

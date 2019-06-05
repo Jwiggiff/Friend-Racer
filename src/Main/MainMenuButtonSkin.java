@@ -7,12 +7,10 @@ import javafx.scene.control.Button;
 import javafx.util.Duration;
 import javafx.scene.text.Font;
 
-import java.awt.GraphicsEnvironment;
-import java.awt.FontFormatException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
+import java.net.URISyntaxException;
 
 public class MainMenuButtonSkin extends ButtonSkin {
     public MainMenuButtonSkin(Button btn) {
@@ -24,12 +22,8 @@ public class MainMenuButtonSkin extends ButtonSkin {
                 "-fx-text-fill: #00008B;"
         );
 
-        try {
-            Font f = Font.loadFont(new FileInputStream(new File("res/pepsi_font.ttf")), 35);
-            btn.setFont(f);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Font f = Font.loadFont(getClass().getClassLoader().getResource("pepsi_font.ttf").toString(), 35);
+        btn.setFont(f);
 
         btn.setPadding(new Insets(20));
 

@@ -39,11 +39,12 @@ public class MainMenuLayout extends StackPane /*VBox*/ {
         leaderboardBtn.setOnAction(e -> app.setLeaderboardScene());
         exitBtn.setOnAction(e -> app.stage.close());
 
-        menuBtns.setAlignment(Pos.CENTER_LEFT);
+        menuBtns.setAlignment(Pos.BOTTOM_LEFT);
         menuBtns.getChildren().addAll(startBtn,instructionsBtn,leaderboardBtn, settingsBtn,exitBtn);
         this.getChildren().addAll(title, menuBtns);
 
         this.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.setPadding(new Insets(0,0,50,0));
 
         for (Node n : this.getChildren()) {
             n.setOpacity(0);

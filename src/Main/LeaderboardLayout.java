@@ -15,7 +15,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class LeaderboardLayout extends VBox {
@@ -48,12 +50,9 @@ public class LeaderboardLayout extends VBox {
         tv.getItems().addAll(entries);
 
         Label title = new Label("Leaderboard");
-        try {
-            Font f = Font.loadFont(new FileInputStream(new File("res/pepsi_font.ttf")), 50);
-            title.setFont(f);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        Font f = Font.loadFont(getClass().getClassLoader().getResource("pepsi_font.ttf").toString(), 50);
+        title.setFont(f);
         title.setTextFill(Color.ORANGE);
         title.setAlignment(Pos.TOP_CENTER);
 
@@ -72,15 +71,11 @@ public class LeaderboardLayout extends VBox {
     }
 
     public void readLeaderboardFile() {
-        try {
-            Scanner s = new Scanner(new File("res/leaderboard"));
-            while (s.hasNext()) {
-                String[] line = s.nextLine().split(" ");
-                entries.add(new LeaderboardEntry(line[0],Integer.parseInt(line[1]),Integer.parseInt(line[2]),Integer.parseInt(line[3])));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        Scanner s = new Scanner(getClass().getClassLoader().getResourceAsStream("leaderboard"));
+        while (s.hasNext()) {
+            String l = s.nextLine();
+            String[] line = l.split(" ");
+            entries.add(new LeaderboardEntry(line[0],Integer.parseInt(line[1]),Integer.parseInt(line[2]),Integer.parseInt(line[3])));
         }
-
     }
 }

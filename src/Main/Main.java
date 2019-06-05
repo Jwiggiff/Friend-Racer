@@ -12,7 +12,7 @@ public class Main extends Application {
     public Stage stage;
     private MainMenuScene mainMenuScene;
     private IntroScene introScene;
-    private static final boolean DEBUGGING = false;
+    private static final boolean DEBUGGING = true;
 
     public void start(Stage stage) {
         mainMenuScene = new MainMenuScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
@@ -25,7 +25,7 @@ public class Main extends Application {
             introScene = new IntroScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
             stage.setScene(introScene);
         } else {
-            setGameScene();
+            setMainMenuScene();
         }
 
         stage.setResizable(false);
