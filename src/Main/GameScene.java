@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 public class GameScene extends Scene {
     private static GameCanvas gameCanvas;
     private static Group gameGroup = new Group();
+    static GameLoop gameLoop;
 
     public GameScene(int windowWidth, int windowHeight) {
         super(gameGroup, windowWidth, windowHeight);
@@ -13,7 +14,7 @@ public class GameScene extends Scene {
         gameCanvas = new GameCanvas(windowWidth + 1200, windowHeight);
         gameGroup.getChildren().add(gameCanvas);
 
-        new GameLoop(gameCanvas);
+        gameLoop = new GameLoop(gameCanvas);
 
         this.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -33,6 +34,10 @@ public class GameScene extends Scene {
                     break;
                 case A: //TESTING
                     new Decision("this is a decision.", "OK", "Not OK", gameGroup);
+                    break;
+                case T: //TESTING
+                    new Tip("This is a tip!", gameGroup);
+                    break;
             }
         });
     }

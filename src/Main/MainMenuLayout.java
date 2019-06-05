@@ -26,7 +26,7 @@ public class MainMenuLayout extends StackPane /*VBox*/ {
 
         StackPane title = new StackPane();
 
-        ImageView titleImg = new ImageView("game_logo.png");
+        ImageView titleImg = new ImageView("res/game_logo.png");
         titleImg.setPreserveRatio(true);
         titleImg.setFitWidth(700);
 
@@ -36,6 +36,7 @@ public class MainMenuLayout extends StackPane /*VBox*/ {
 
         // Event Listeners //
         startBtn.setOnAction(e -> app.setGameScene());
+        instructionsBtn.setOnAction(e -> app.setInstructionsScene());
         leaderboardBtn.setOnAction(e -> app.setLeaderboardScene());
         exitBtn.setOnAction(e -> app.stage.close());
 

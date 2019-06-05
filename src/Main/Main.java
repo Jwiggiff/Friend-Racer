@@ -11,6 +11,9 @@ public class Main extends Application {
     private static final int WINDOW_HEIGHT = 600;
     public Stage stage;
     private MainMenuScene mainMenuScene;
+    private GameScene gameScene = new GameScene(WINDOW_WIDTH, WINDOW_HEIGHT);
+    private InstructionsScene instructionsScene = new InstructionsScene(WINDOW_WIDTH,WINDOW_HEIGHT, this);;
+    private LeaderboardScene leaderboardScene = new LeaderboardScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);;
     private IntroScene introScene;
     private static final boolean DEBUGGING = true;
 
@@ -34,7 +37,6 @@ public class Main extends Application {
     }
 
     public void setGameScene() {
-        GameScene gameScene = new GameScene(WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(gameScene);
     }
 
@@ -44,8 +46,11 @@ public class Main extends Application {
     }
 
     public void setLeaderboardScene() {
-        LeaderboardScene leaderboardScene = new LeaderboardScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
         stage.setScene(leaderboardScene);
+    }
+
+    public void setInstructionsScene() {
+        stage.setScene(instructionsScene);
     }
 
     public static void main(String[] args) {

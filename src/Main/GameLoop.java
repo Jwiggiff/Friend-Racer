@@ -45,13 +45,11 @@ public class GameLoop extends AnimationTimer {
             canvas.rotateSpinningSprites();
 
             //Collision detection for platforms
-            if (!canvas.player.intersectsWithPlatformSide(canvas.gc, canvas.platforms)) {
-                for (Sprite platform : canvas.platforms) {
-                    if (canvas.player.intersects(platform)) {
-                        canvas.player.setPos(canvas.player.getPos().x, platform.getPos().y - canvas.player.getHeight());
-                        canvas.player.setVel(3, 0);
-                        break;
-                    }
+            for (Sprite platform : canvas.platforms) {
+                if (canvas.player.intersects(platform)) {
+                    canvas.player.setPos(canvas.player.getPos().x, platform.getPos().y - canvas.player.getHeight());
+                    canvas.player.setVel(3, 0);
+                    break;
                 }
             }
 
@@ -84,11 +82,6 @@ public class GameLoop extends AnimationTimer {
 
             //Draw world
             canvas.drawWorld();
-
-            if (canvas.player.intersectsWithPlatformSide(canvas.gc, canvas.platforms)) {
-                canvas.player.setPos(canvas.player.getPos().x - 10, canvas.player.getPos().y);
-                canvas.player.setVel(3, canvas.player.getVel().y);
-            }
 
             //Update player
             canvas.player.update();

@@ -51,7 +51,7 @@ public class LeaderboardLayout extends VBox {
 
         Label title = new Label("Leaderboard");
 
-        Font f = Font.loadFont(getClass().getClassLoader().getResource("pepsi_font.ttf").toString(), 50);
+        Font f = Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 50);
         title.setFont(f);
         title.setTextFill(Color.ORANGE);
         title.setAlignment(Pos.TOP_CENTER);
@@ -71,7 +71,7 @@ public class LeaderboardLayout extends VBox {
     }
 
     public void readLeaderboardFile() {
-        Scanner s = new Scanner(getClass().getClassLoader().getResourceAsStream("leaderboard"));
+        Scanner s = new Scanner(getClass().getClassLoader().getResourceAsStream("res/leaderboard"));
         while (s.hasNext()) {
             String l = s.nextLine();
             String[] line = l.split(" ");

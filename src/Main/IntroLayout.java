@@ -12,10 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
 public class IntroLayout extends StackPane {
     private ImageView companyLogo;
     private ImageView gameLogo;
@@ -55,7 +51,7 @@ public class IntroLayout extends StackPane {
     }
 
     private void loadResources() {
-        companyLogo = new ImageView(new Image(getClass().getClassLoader().getResource("company_logo.png").toString()));
-        gameLogo = new ImageView(new Image(getClass().getClassLoader().getResource("res/game_logo.png").toString()));
+        companyLogo = new ImageView(new Image(getClass().getClassLoader().getResource("res/company_logo.png").toString()));
+        gameLogo = new ImageView(new Image(getClass().getClassLoader().getResource("res/res/game_logo.png").toString()));
     }
 }
