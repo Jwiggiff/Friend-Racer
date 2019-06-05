@@ -32,41 +32,41 @@ public class GameCanvas extends Canvas {
 
     private void loadResources() {
         try {
-            player = new Character(new Image("./running_man.png"), 40);
+            player = new Character(new Image(getClass().getClassLoader().getResource("running_man.png").toString()), 40);
 
             for (int i = 0; i < 40; i++) {
-                platforms.add(new Sprite(new Image("./platforms/ground.PNG"), 50));
+                platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/ground.PNG").toString()), 50));
             }
 
-            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
-            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
-            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
-            platforms.add(new Sprite(new Image("./platforms/platform_1.PNG"), 75));
-            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
-            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
-            platforms.add(new Sprite(new Image("./platforms/platform_1.PNG"), 75));
-            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
-            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
-            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80));
-            platforms.add(new Sprite(new Image("./platforms/platform.PNG"), 80, 7));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform.PNG").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform.PNG").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform.PNG").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform_1.PNG").toString()), 75));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform.PNG").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform.PNG").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform_1.PNG").toString()), 75));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform.PNG").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform.PNG").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform.PNG").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("platforms/platform.PNG").toString()), 80, 7));
 
-            obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
-            obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
-            obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
-            obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 13));
-            obstacles.add(new Sprite(new Image("./spikes/spikes_2 - upside down.png"), 40));
-            obstacles.add(new Sprite(new Image("./spikes/spikes_2 - upside down.png"), 40));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("spikes/single_spike.png").toString()), 13));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("spikes/single_spike.png").toString()), 13));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("spikes/single_spike.png").toString()), 13));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("spikes/single_spike.png").toString()), 13));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("spikes/spikes_2 - upside down.png").toString()), 40));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("spikes/spikes_2 - upside down.png").toString()), 40));
             for (int i = 0; i < 4; i++) {
-                obstacles.add(new Sprite(new Image("./ropes_chains/long_chain_piece.png"), 13));
+                obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("ropes_chains/long_chain_piece.png").toString()), 13));
             }
-            obstacles.add(new Sprite(new Image("./spikes/spikes_1.png"), 50));
-            obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 10));
-            obstacles.add(new Sprite(new Image("./spikes/single_spike.png"), 10));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("spikes/spikes_1.png").toString()), 50));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("spikes/single_spike.png").toString()), 10));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("spikes/single_spike.png").toString()), 10));
 
-            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_1.png"), 24, 1));
-            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_2.png"), 24, 1));
-            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/blade_3.png"), 24, -1));
-            spinningObstacles.add(new SpinningSprite(new Image("./rotating_blades/large_post.png"), 15, 1));
+            spinningObstacles.add(new SpinningSprite(new Image(getClass().getClassLoader().getResource("rotating_blades/blade_1.png").toString()), 24, 1));
+            spinningObstacles.add(new SpinningSprite(new Image(getClass().getClassLoader().getResource("rotating_blades/blade_2.png").toString()), 24, 1));
+            spinningObstacles.add(new SpinningSprite(new Image(getClass().getClassLoader().getResource("rotating_blades/blade_3.png").toString()), 24, -1));
+            spinningObstacles.add(new SpinningSprite(new Image(getClass().getClassLoader().getResource("rotating_blades/large_post.png").toString()), 15, 1));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,14 +102,14 @@ public class GameCanvas extends Canvas {
         platforms.get(47).setPos(1210, 470);
         platforms.get(48).setPos(1310, 450);
         platforms.get(49).setPos(1420, 410);
-        platforms.get(50).setPos(1595, 410);
+        platforms.get(50).setPos(1585, 410);
 
         obstacles.get(0).setPos(362, 460);
         obstacles.get(1).setPos(457, 400);
         obstacles.get(2).setPos(552, 340);
-        obstacles.get(3).setPos(262, 505);
-        obstacles.get(4).setPos(1595, 408 + platforms.get(50).getHeight());
-        obstacles.get(5).setPos(1635, 408 + platforms.get(50).getHeight());
+        //obstacles.get(3).setPos(262, 505);
+        obstacles.get(4).setPos(1585, 408 + platforms.get(50).getHeight());
+        obstacles.get(5).setPos(1625, 408 + platforms.get(50).getHeight());
         obstacles.get(6).setPos(720, 0);
         obstacles.get(7).setPos(720, obstacles.get(6).getHeight());
         obstacles.get(8).setPos(720, obstacles.get(6).getHeight()*2);

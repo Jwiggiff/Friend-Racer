@@ -24,6 +24,14 @@ public class Sprite {
         this(image, width, (int) Math.round(image.getHeight() / (image.getWidth() / width)));
     }
 
+    public Sprite(Sprite another) {
+        image = another.image;
+        pos = new Vector2D(another.getPos().x, another.getPos().y);
+        vel = new Vector2D(another.getVel().x, another.getVel().y);
+        width = another.width;
+        height = another.height;
+    }
+
     public void setPos(int x, int y) {
         pos.set(x, y);
     }

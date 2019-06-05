@@ -72,6 +72,17 @@ public class Character extends Sprite {
         return new int[]{-1, -1};
     }
 
+    public boolean intersectsWithPlatformSide(GraphicsContext gc, ArrayList<Sprite> platforms) {
+        for (Sprite s : platforms) {
+            Sprite temp = new Sprite(s);
+            temp.setPos(temp.getPos().x + 1, temp.getPos().y);
+            if (temp.intersects(this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void jump() { this.setVel(3, -15); }
 
     public void applyGravity(long currentTime, long startGravityTime) {
