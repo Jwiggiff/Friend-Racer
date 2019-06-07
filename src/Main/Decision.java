@@ -17,16 +17,21 @@ public class Decision {
     private String message;
     private String[] options = new String[2];
     private Group pane;
+    private Character player;
+    private static final int SLOWDOWN_FACTOR = 2;
 
-    public Decision(String message, String option1, String option2, Group pane) {
+    public Decision(String message, String option1, String option2, Group pane, Character player) {
         this.message = message;
         this.options[0] = option1;
         this.options[1] = option2;
         this.pane = pane;
+        this.player = player;
         show();
     }
 
     public void show() {
+        player.subVel(SLOWDOWN_FACTOR, 0);
+
         StackPane layout = new StackPane();
         layout.setPrefSize(500,300);
         layout.setAlignment(Pos.TOP_CENTER);
@@ -36,14 +41,14 @@ public class Decision {
         layout.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(5))));
         layout.setBackground(new Background(new BackgroundFill(new Color(0,0,0,0.9), new CornerRadii(10), Insets.EMPTY)));
 
-        Text title = new Text("Make a Decision!");
+        Text title = new Text("Make a Decision");
         title.setFill(Color.WHITE);
-        title.setFont(new Font(30));
+        title.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 30));
         title.setTextAlignment(TextAlignment.CENTER);
 
         Text msg = new Text(message);
         msg.setFill(Color.WHITE);
-        msg.setFont(new Font(18));
+        msg.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 18));
         msg.setTextAlignment(TextAlignment.CENTER);
         StackPane s = new StackPane();
         s.getChildren().add(msg);
@@ -53,10 +58,10 @@ public class Decision {
         Text option2 = new Text("Don't Jump to\n"+options[1]);
         option1.setTextAlignment(TextAlignment.CENTER);
         option1.setFill(Color.WHITE);
-        option1.setFont(new Font(18));
+        option1.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 18));
         option2.setTextAlignment(TextAlignment.CENTER);
         option2.setFill(Color.WHITE);
-        option2.setFont(new Font(18));
+        option2.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 18));
         HBox optionsBox = new HBox(100);
         optionsBox.getChildren().addAll(option1, option2);
         optionsBox.setAlignment(Pos.TOP_CENTER);
@@ -75,7 +80,10 @@ public class Decision {
                     new KeyFrame(Duration.millis(i*100), e -> pb.setProgress(1-(ii/150.0)))
             );
         }
-        countdown.getKeyFrames().add(new KeyFrame(Duration.millis(15001), e -> pane.getChildren().remove(layout)));
+        countdown.getKeyFrames().add(new KeyFrame(Duration.millis(15001), e -> {
+            pane.getChildren().remove(layout);
+            player.addVel(SLOWDOWN_FACTOR, 0);
+        }));
         countdown.playFromStart();
     }
 }

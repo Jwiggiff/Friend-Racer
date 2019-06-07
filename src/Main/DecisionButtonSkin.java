@@ -20,7 +20,7 @@ public class DecisionButtonSkin extends ButtonSkin {
         btn.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(5), Insets.EMPTY)));
         btn.setBorder(new Border(new BorderStroke(Color.rgb(0,0,139, 0), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(0,0,5,0))));
 
-        btn.setFont(new Font(35));
+        btn.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 35));
 
         // Hovering //
         btn.setOnMouseEntered(e -> btn.setBorder(new Border(new BorderStroke(Color.rgb(0,0,139), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(0,0,5,0)))));

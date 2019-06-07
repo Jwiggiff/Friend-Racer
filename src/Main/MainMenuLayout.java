@@ -2,11 +2,15 @@ package Main;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class MainMenuLayout extends StackPane /*VBox*/ {
     private Main app;
@@ -35,7 +39,34 @@ public class MainMenuLayout extends StackPane /*VBox*/ {
         title.setAlignment(Pos.TOP_CENTER);
 
         // Event Listeners //
-        startBtn.setOnAction(e -> app.setGameScene());
+        startBtn.setOnAction(e -> {
+            HBox characterSelect = new HBox();
+            Button guyBtn = new Button("guy"/*, Guy character */);
+            guyBtn.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(),30));
+            guyBtn.setTextFill(Color.BLUE);
+            guyBtn.setOnMouseEntered(event -> guyBtn.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
+            guyBtn.setOnMouseExited(event -> guyBtn.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
+            Button girlBtn = new Button("girl"/*, Girl character */);
+            girlBtn.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(),30));
+            girlBtn.setTextFill(Color.BLUE);
+            girlBtn.setOnMouseEntered(event -> girlBtn.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
+            girlBtn.setOnMouseExited(event -> girlBtn.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
+            characterSelect.getChildren().addAll(guyBtn, girlBtn);
+            Text header = new Text("Choose a Character:");
+            header.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(),30));
+            header.setFill(Color.ORANGE);
+            VBox popup = new VBox(10);
+            popup.getChildren().addAll(title, characterSelect);
+            this.getChildren().add(popup);
+            guyBtn.setOnAction(event -> {
+                this.getChildren().remove(popup);
+                app.setGameScene();
+            });
+            girlBtn.setOnAction(event -> {
+                this.getChildren().remove(popup);
+                app.setGameScene();
+            });
+        });
         instructionsBtn.setOnAction(e -> app.setInstructionsScene());
         leaderboardBtn.setOnAction(e -> app.setLeaderboardScene());
         exitBtn.setOnAction(e -> app.stage.close());
