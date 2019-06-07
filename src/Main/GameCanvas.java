@@ -17,9 +17,12 @@ public class GameCanvas extends Canvas {
     public ArrayList<Sprite> platforms = new ArrayList<Sprite>();
     public ArrayList<Sprite> obstacles = new ArrayList<Sprite>();
     public ArrayList<SpinningSprite> spinningObstacles = new ArrayList<SpinningSprite>();
+    public Sprite background;
+    public static int diffHeight = GameScene.CANVAS_HEIGHT - Main.WINDOW_HEIGHT;
 
     public GameCanvas(int width, int height) {
         super(width, height);
+        this.setTranslateY(diffHeight);
         gc = this.getGraphicsContext2D();
         loadResources();
         setSpritePositions();
@@ -32,23 +35,24 @@ public class GameCanvas extends Canvas {
 
     private void loadResources() {
         try {
+            background = new Sprite(GameScene.CANVAS_HEIGHT - 50, new Image(getClass().getClassLoader().getResource("res/game_background.png").toString()));
+
             player = new Character(new Image(getClass().getClassLoader().getResource("res/running_man.png").toString()), 40);
 
-            for (int i = 0; i < 40; i++) {
-                platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/ground.PNG").toString()), 50));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.png").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.png").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.png").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform_1.png").toString()), 75));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.png").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.png").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform_1.png").toString()), 75));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.png").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.png").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.png").toString()), 80));
+            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.png").toString()), 80, 12));
+            for (int i = 11; i < 61; i++) {
+                platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/ground.png").toString()), 50));
             }
-
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.PNG").toString()), 80));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.PNG").toString()), 80));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.PNG").toString()), 80));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform_1.PNG").toString()), 75));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.PNG").toString()), 80));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.PNG").toString()), 80));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform_1.PNG").toString()), 75));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.PNG").toString()), 80));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.PNG").toString()), 80));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.PNG").toString()), 80));
-            platforms.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/platforms/platform.PNG").toString()), 80, 7));
 
             obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/spikes/single_spike.png").toString()), 13));
             obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/spikes/single_spike.png").toString()), 13));
@@ -62,6 +66,8 @@ public class GameCanvas extends Canvas {
             obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/spikes/spikes_1.png").toString()), 50));
             obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/spikes/single_spike.png").toString()), 10));
             obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/spikes/single_spike.png").toString()), 10));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/spikes/single_spike.png").toString()), 15));
+            obstacles.add(new Sprite(new Image(getClass().getClassLoader().getResource("res/gif_obstacles/spinning_spike_tower.gif").toString()), 50));
 
             spinningObstacles.add(new SpinningSprite(new Image(getClass().getClassLoader().getResource("res/rotating_blades/blade_1.png").toString()), 24, 1));
             spinningObstacles.add(new SpinningSprite(new Image(getClass().getClassLoader().getResource("res/rotating_blades/blade_2.png").toString()), 24, 1));
@@ -73,9 +79,8 @@ public class GameCanvas extends Canvas {
     }
 
     public void drawWorld() {
-        gc.clearRect(0,0,2000,600);
-        gc.setFill(Color.RED);
-
+        gc.clearRect(0,0, GameScene.CANVAS_WIDTH, GameScene.CANVAS_HEIGHT);
+        background.render(gc);
         for (Sprite s : platforms) {
             s.render(gc);
         }
@@ -85,43 +90,48 @@ public class GameCanvas extends Canvas {
         for (Sprite s : spinningObstacles) {
             s.render(gc);
         }
+
+        //TODO: 4 DECISIONS - JUMP FOR OPTION 1, DON'T JUMP FOR OPTION 2
+        gc.setFill(Color.PINK);
+        gc.fillRect(1450, 320 + diffHeight, 30, 30);
     }
 
     private void setSpritePositions() {
-        for (int i = 0; i < 40; i++) {
-            platforms.get(i).setPos(50*(i-4), 550);
+        platforms.get(0).setPos(295, 480 + diffHeight);
+        platforms.get(1).setPos(390, 420 + diffHeight);
+        platforms.get(2).setPos(485, 360 + diffHeight);
+        platforms.get(3).setPos(200, 523 + diffHeight);
+        platforms.get(4).setPos(870, 525 + diffHeight);
+        platforms.get(5).setPos(970, 470 + diffHeight);
+        platforms.get(6).setPos(1070, 523 + diffHeight);
+        platforms.get(7).setPos(1210, 470 + diffHeight);
+        platforms.get(8).setPos(1310, 450 + diffHeight);
+        platforms.get(9).setPos(1420, 410 + diffHeight);
+        platforms.get(10).setPos(1585, 410 + diffHeight);
+        for (int i = 11; i < 61; i++) {
+            platforms.get(i).setPos(50*(i-15), 550 + diffHeight);
         }
 
-        platforms.get(40).setPos(295, 480);
-        platforms.get(41).setPos(390, 420);
-        platforms.get(42).setPos(485, 360);
-        platforms.get(43).setPos(200, 523);
-        platforms.get(44).setPos(870, 525);
-        platforms.get(45).setPos(970, 470);
-        platforms.get(46).setPos(1070, 523);
-        platforms.get(47).setPos(1210, 470);
-        platforms.get(48).setPos(1310, 450);
-        platforms.get(49).setPos(1420, 410);
-        platforms.get(50).setPos(1585, 410);
+        obstacles.get(0).setPos(362, 460 + diffHeight);
+        obstacles.get(1).setPos(457, 400 + diffHeight);
+        obstacles.get(2).setPos(552, 340 + diffHeight);
+        obstacles.get(3).setPos(262, 505 + diffHeight);
+        obstacles.get(4).setPos(1585, 362 + platforms.get(50).getHeight() + diffHeight);
+        obstacles.get(5).setPos(1625, 362 + platforms.get(50).getHeight() + diffHeight);
+        obstacles.get(6).setPos(720, diffHeight);
+        obstacles.get(7).setPos(720, obstacles.get(6).getHeight() + diffHeight);
+        obstacles.get(8).setPos(720, obstacles.get(6).getHeight()*2 + diffHeight);
+        obstacles.get(9).setPos(720, obstacles.get(6).getHeight()*3 + diffHeight);
+        obstacles.get(10).setPos(1170, 520 + diffHeight);
+        obstacles.get(11).setPos(940, 510 + diffHeight);
+        obstacles.get(12).setPos(1280, 455 + diffHeight);
+        obstacles.get(13).setPos(1785, 550 - obstacles.get(13).getHeight() + diffHeight);
+        //obstacles.get(14).setPos(1985, 550 - obstacles.get(14).getHeight() + diffHeight);
 
-        obstacles.get(0).setPos(362, 460);
-        obstacles.get(1).setPos(457, 400);
-        obstacles.get(2).setPos(552, 340);
-        obstacles.get(3).setPos(262, 505);
-        obstacles.get(4).setPos(1585, 408 + platforms.get(50).getHeight());
-        obstacles.get(5).setPos(1625, 408 + platforms.get(50).getHeight());
-        obstacles.get(6).setPos(720, 0);
-        obstacles.get(7).setPos(720, obstacles.get(6).getHeight());
-        obstacles.get(8).setPos(720, obstacles.get(6).getHeight()*2);
-        obstacles.get(9).setPos(720, obstacles.get(6).getHeight()*3);
-        obstacles.get(10).setPos(1170, 520);
-        obstacles.get(11).setPos(940, 510);
-        obstacles.get(12).setPos(1280, 455);
-
-        spinningObstacles.get(0).setPos(175, 526);
-        spinningObstacles.get(1).setPos(1366, 426);
-        spinningObstacles.get(2).setPos(846, 526);
-        spinningObstacles.get(3).setPos(720 + obstacles.get(6).getWidth()/2 - spinningObstacles.get(3).getWidth()/2, obstacles.get(6).getHeight()*4 - spinningObstacles.get(3).getHeight()/2);
+        spinningObstacles.get(0).setPos(175, 526 + diffHeight);
+        spinningObstacles.get(1).setPos(1366, 426 + diffHeight);
+        spinningObstacles.get(2).setPos(846, 526 + diffHeight);
+        spinningObstacles.get(3).setPos(720 + obstacles.get(6).getWidth()/2 - spinningObstacles.get(3).getWidth()/2, diffHeight + obstacles.get(6).getHeight()*4 - spinningObstacles.get(3).getHeight()/2);
     }
 
     public void rotateSpinningSprites() {

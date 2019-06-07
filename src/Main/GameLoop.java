@@ -7,7 +7,7 @@ public class GameLoop extends AnimationTimer {
     static boolean jump = false;
     static boolean respawning = true;
     private long startGravityTime = -1;
-    private long startTime = -1;
+    private int respawnX = 10;
 
     public GameLoop(GameCanvas canvas) {
         this.start();
@@ -17,21 +17,24 @@ public class GameLoop extends AnimationTimer {
     @Override
     public void handle(long currentTime) {
         if (!canvas.pause) {
-            //TODO: Scroll world
-
-            if (startTime == -1) {
-                startTime = currentTime;
-                canvas.player.addVel(3, 0);
-            }
-
-            if (canvas.player.getPos().x >= 200) {
-                canvas.setTranslateX(canvas.getTranslateX() - 3);
-            }
-
-            //Run first frame only
+            //TODO: Scroll world up and down
             if (startGravityTime == -1) {
                 startGravityTime = currentTime;
-                canvas.player.respawn(canvas.gc, this);
+                canvas.player.respawn(canvas, respawnX, canvas.gc, this);
+                canvas.background.setPos(respawnX - 10, 0);
+                canvas.background.setVel(2, 0);
+            }
+
+            if (canvas.player.getPos().x >= 200 + respawnX) {
+                canvas.setTranslateX(canvas.getTranslateX() - canvas.player.getVel().x);
+                canvas.background.update();
+                canvas.background.render(canvas.gc);
+            }
+
+            if (canvas.player.getPos().y <= 300 + GameCanvas.diffHeight) {
+                canvas.setTranslateY(300 - canvas.player.getPos().y);
+            } else {
+                canvas.setTranslateY(-GameCanvas.diffHeight);
             }
 
             canvas.player.erase(canvas.gc);
@@ -44,20 +47,13 @@ public class GameLoop extends AnimationTimer {
             //Rotate all spinning sprites
             canvas.rotateSpinningSprites();
 
-            //Collision detection for platforms
-            for (Sprite platform : canvas.platforms) {
-                if (canvas.player.intersects(platform)) {
-                    canvas.player.setPos(canvas.player.getPos().x, platform.getPos().y - canvas.player.getHeight());
-                    canvas.player.setVel(3, 0);
-                    break;
-                }
-            }
-
             //More collision detection. Yay! For obstacles
             for (Sprite obstacle : canvas.obstacles) {
                 if (canvas.player.intersects(obstacle)) {
                     canvas.setTranslateX(0);
-                    canvas.player.respawn(canvas.gc, this);
+                    canvas.background.setPos(0, 0);
+                    canvas.player.respawn(canvas, respawnX, canvas.gc, this);
+                    canvas.background.setPos(respawnX - 10, 0);
                     respawning = true;
                     jump = false;
                     break;
@@ -66,9 +62,23 @@ public class GameLoop extends AnimationTimer {
             for (SpinningSprite spinningObstacle : canvas.spinningObstacles) {
                 if (canvas.player.intersects(spinningObstacle)) {
                     canvas.setTranslateX(0);
-                    canvas.player.respawn(canvas.gc, this);
+                    canvas.background.setPos(0, 0);
+                    canvas.player.respawn(canvas, respawnX, canvas.gc, this);
+                    canvas.background.setPos(respawnX - 10, 0);
                     respawning = true;
                     jump = false;
+                    break;
+                }
+            }
+
+            //Collision detection for platforms
+            Sprite temp = new Sprite(canvas.player);
+            temp.setVel(canvas.player.getVel().x, canvas.player.getVel().y);
+            temp.update();
+            for (Sprite platform : canvas.platforms) {
+                if (temp.intersects(platform)) {
+                    canvas.player.setPos(canvas.player.getPos().x, platform.getPos().y - canvas.player.getHeight());
+                    canvas.player.setVel(canvas.player.getVel().x, 0);
                     break;
                 }
             }

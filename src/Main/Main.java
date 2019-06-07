@@ -6,14 +6,15 @@ import javafx.stage.Stage;
 //TODO: change the little logo on the top left of the run screen to our company logo
 //TODO: convert all image backgrounds to transparent (PNG) instead of white
 //TODO: make a legit ground that's a sprite
+//TODO: add music
 public class Main extends Application {
-    private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 600;
+    public static final int WINDOW_WIDTH = 800;
+    public static final int WINDOW_HEIGHT = 600;
     public Stage stage;
     private MainMenuScene mainMenuScene;
-    private GameScene gameScene = new GameScene(WINDOW_WIDTH, WINDOW_HEIGHT);
-    private InstructionsScene instructionsScene = new InstructionsScene(WINDOW_WIDTH,WINDOW_HEIGHT, this);;
-    private LeaderboardScene leaderboardScene = new LeaderboardScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);;
+    private GameScene gameScene;
+    private InstructionsScene instructionsScene = new InstructionsScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
+    private LeaderboardScene leaderboardScene = new LeaderboardScene(WINDOW_WIDTH, WINDOW_HEIGHT, this);
     private IntroScene introScene;
     private static final boolean DEBUGGING = true;
 
@@ -37,6 +38,7 @@ public class Main extends Application {
     }
 
     public void setGameScene() {
+        gameScene = new GameScene(WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(gameScene);
     }
 

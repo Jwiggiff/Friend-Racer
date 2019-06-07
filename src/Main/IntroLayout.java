@@ -52,6 +52,6 @@ public class IntroLayout extends StackPane {
 
     private void loadResources() {
         companyLogo = new ImageView(new Image(getClass().getClassLoader().getResource("res/company_logo.png").toString()));
-        gameLogo = new ImageView(new Image(getClass().getClassLoader().getResource("res/res/game_logo.png").toString()));
+        gameLogo = new ImageView(new Image(getClass().getClassLoader().getResource("res/game_logo.png").toString()));
     }
 }

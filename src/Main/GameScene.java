@@ -6,12 +6,14 @@ import javafx.scene.Scene;
 public class GameScene extends Scene {
     private static GameCanvas gameCanvas;
     private static Group gameGroup = new Group();
-    static GameLoop gameLoop;
+    public static GameLoop gameLoop;
+    public static final int CANVAS_WIDTH = 2500;
+    public static final int CANVAS_HEIGHT = 800;
 
     public GameScene(int windowWidth, int windowHeight) {
         super(gameGroup, windowWidth, windowHeight);
         //TODO: windowWidth+1200 is the width of the canvas (currently 2000)
-        gameCanvas = new GameCanvas(windowWidth + 1200, windowHeight);
+        gameCanvas = new GameCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         gameGroup.getChildren().add(gameCanvas);
 
         gameLoop = new GameLoop(gameCanvas);
@@ -33,10 +35,10 @@ public class GameScene extends Scene {
                     }
                     break;
                 case A: //TESTING
-                    new Decision("this is a decision.", "OK", "Not OK", gameGroup);
+                    new Decision("this is a decision.", "OK", "Not OK", gameGroup, gameCanvas.player);
                     break;
                 case T: //TESTING
-                    new Tip("This is a tip!", gameGroup);
+                    new Tip("This is a tip", gameGroup);
                     break;
             }
         });

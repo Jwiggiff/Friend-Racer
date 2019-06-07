@@ -3,6 +3,7 @@ package Main;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
@@ -27,37 +28,19 @@ public class Character extends Sprite {
         );
     }
 
-    public void respawn(GraphicsContext gc, AnimationTimer timer) {
+    //TODO: the canvas param is only for testing
+    public void respawn(Canvas canvas, int respawnX, GraphicsContext gc, AnimationTimer timer) {
         //TODO: make a flashing respawn - mario style!
         GameLoop.respawning = true;
-        Timeline delay = createPauseTimerTimeline(timer, new Duration(250));
+        Timeline delay = createPauseTimerTimeline(timer, new Duration(1000));
 
-        this.setPos(10, 550 - this.getHeight());
+        this.setPos(respawnX, 550 - this.getHeight() + GameCanvas.diffHeight);
+        canvas.setTranslateX(10 - respawnX);
+
         this.setVel(3, 0);
         this.render(gc);
         delay.playFromStart();
-        delay.setOnFinished(event -> {
-            this.setPos(20, 550 - this.getHeight());
-            //this.setVel(0, 0);
-            this.erase(gc);
-            Timeline delay1 = createPauseTimerTimeline(timer, new Duration(250));
-            delay1.playFromStart();
-            delay1.setOnFinished(event1 -> {
-                this.setPos(20, 550 - this.getHeight());
-                //this.setVel(0, 0);
-                this.render(gc);
-                Timeline delay2 = createPauseTimerTimeline(timer, new Duration(250));
-                delay2.playFromStart();
-                delay2.setOnFinished(event2 -> {
-                    this.setPos(20, 550 - this.getHeight());
-                    //this.setVel(0, 0);
-                    this.erase(gc);
-                    Timeline delay3 = createPauseTimerTimeline(timer, new Duration(250));
-                    delay3.playFromStart();
-                    delay3.setOnFinished(event3 -> GameLoop.respawning = false);
-                });
-            });
-        });
+        delay.setOnFinished(event -> GameLoop.respawning = false);
     }
 
     public int[] playerPlatformStatus(ArrayList<Sprite> platforms) {
@@ -65,18 +48,18 @@ public class Character extends Sprite {
             if (platforms.get(i).intersects(this)) {
                 return new int[]{1, i};
             }
-            if ((new Character(this, new Vector2D(this.getPos().x, this.getPos().y + 1))).intersects(platforms.get(i))) {
+            if ((new Character(this, new Vector2D(this.getPos().x, this.getPos().y + 2))).intersects(platforms.get(i))) {
                 return new int[]{0, i};
             }
         }
         return new int[]{-1, -1};
     }
 
-    public void jump() { this.setVel(3, -15); }
+    public void jump() { this.addVel(0, -10); }
 
     public void applyGravity(long currentTime, long startGravityTime) {
         if (this.getVel().y <= 30) {
-            this.addVel(0, (int) Math.round(9.8 * ((currentTime - startGravityTime) / 1000000000.0)));
+            this.addVel(0, (int) Math.round(4.5 * ((currentTime - startGravityTime) / 1000000000.0)));
         }
     }
 }

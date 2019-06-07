@@ -71,11 +71,12 @@ public class LeaderboardLayout extends VBox {
     }
 
     public void readLeaderboardFile() {
-        Scanner s = new Scanner(getClass().getClassLoader().getResourceAsStream("res/leaderboard"));
+        Scanner s;
+        s = new Scanner(getClass().getClassLoader().getResourceAsStream("res/leaderboard"));
         while (s.hasNext()) {
             String l = s.nextLine();
             String[] line = l.split(" ");
-            entries.add(new LeaderboardEntry(line[0],Integer.parseInt(line[1]),Integer.parseInt(line[2]),Integer.parseInt(line[3])));
+            entries.add(new LeaderboardEntry(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), Integer.parseInt(line[3])));
         }
     }
 }

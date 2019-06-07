@@ -24,6 +24,10 @@ public class Sprite {
         this(image, width, (int) Math.round(image.getHeight() / (image.getWidth() / width)));
     }
 
+    public Sprite(int height, Image image) {
+        this(image, (int) Math.round(image.getWidth() / (image.getHeight() / height)), height);
+    }
+
     public Sprite(Sprite another) {
         image = another.image;
         pos = new Vector2D(another.getPos().x, another.getPos().y);
@@ -38,6 +42,10 @@ public class Sprite {
 
     public void addVel(int x, int y) {
         vel.add(new Vector2D(x, y));
+    }
+
+    public void subVel(int x, int y) {
+        vel.sub(new Vector2D(x, y));
     }
 
     public Vector2D getVel() { return vel; }
