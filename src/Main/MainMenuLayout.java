@@ -11,8 +11,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
-public class MainMenuLayout extends StackPane /*VBox*/ {
+public class MainMenuLayout extends StackPane {
     private Main app;
 
     public MainMenuLayout() {
@@ -20,12 +21,10 @@ public class MainMenuLayout extends StackPane /*VBox*/ {
         Button startBtn = new Button("Start");
         Button instructionsBtn = new Button("How to Play");
         Button leaderboardBtn = new Button("Leaderboard");
-        Button settingsBtn = new Button("Settings");
         Button exitBtn = new Button("Exit");
         startBtn.setSkin(new MainMenuButtonSkin(startBtn));
         instructionsBtn.setSkin(new MainMenuButtonSkin(instructionsBtn));
-        ((Button) leaderboardBtn).setSkin(new MainMenuButtonSkin(leaderboardBtn));
-        settingsBtn.setSkin(new MainMenuButtonSkin(settingsBtn));
+        leaderboardBtn.setSkin(new MainMenuButtonSkin(leaderboardBtn));
         exitBtn.setSkin(new MainMenuButtonSkin(exitBtn));
 
         StackPane title = new StackPane();
@@ -39,40 +38,14 @@ public class MainMenuLayout extends StackPane /*VBox*/ {
         title.setAlignment(Pos.TOP_CENTER);
 
         // Event Listeners //
-        startBtn.setOnAction(e -> {
-            HBox characterSelect = new HBox();
-            Button guyBtn = new Button("guy"/*, Guy character */);
-            guyBtn.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(),30));
-            guyBtn.setTextFill(Color.BLUE);
-            guyBtn.setOnMouseEntered(event -> guyBtn.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
-            guyBtn.setOnMouseExited(event -> guyBtn.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
-            Button girlBtn = new Button("girl"/*, Girl character */);
-            girlBtn.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(),30));
-            girlBtn.setTextFill(Color.BLUE);
-            girlBtn.setOnMouseEntered(event -> girlBtn.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
-            girlBtn.setOnMouseExited(event -> girlBtn.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
-            characterSelect.getChildren().addAll(guyBtn, girlBtn);
-            Text header = new Text("Choose a Character:");
-            header.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(),30));
-            header.setFill(Color.ORANGE);
-            VBox popup = new VBox(10);
-            popup.getChildren().addAll(title, characterSelect);
-            this.getChildren().add(popup);
-            guyBtn.setOnAction(event -> {
-                this.getChildren().remove(popup);
-                app.setGameScene();
-            });
-            girlBtn.setOnAction(event -> {
-                this.getChildren().remove(popup);
-                app.setGameScene();
-            });
-        });
+        startBtn.setOnAction(e -> app.setGameScene());
         instructionsBtn.setOnAction(e -> app.setInstructionsScene());
         leaderboardBtn.setOnAction(e -> app.setLeaderboardScene());
         exitBtn.setOnAction(e -> app.stage.close());
 
-        menuBtns.setAlignment(Pos.BOTTOM_LEFT);
-        menuBtns.getChildren().addAll(startBtn,instructionsBtn,leaderboardBtn, settingsBtn,exitBtn);
+        menuBtns.setAlignment(Pos.CENTER_LEFT);
+        menuBtns.setTranslateY(50);
+        menuBtns.getChildren().addAll(startBtn,instructionsBtn,leaderboardBtn,exitBtn);
         this.getChildren().addAll(title, menuBtns);
 
         this.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
