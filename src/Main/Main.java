@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 //TODO: convert all image backgrounds to transparent (PNG) instead of white
 //TODO: make a legit ground that's a sprite
 //TODO: add music
+//TODO: add Pixel Entertainment under the logo in the splashscreen
+//TODO: bug in main menu when selecting guy or girl and pressing space
+//TODO: make sure that there is no input read during the decision making delay
 public class Main extends Application {
     public static final int WINDOW_WIDTH = 800;
     public static final int WINDOW_HEIGHT = 600;

@@ -1,10 +1,10 @@
 package Main;
 
 public class Vector2D {
-    int x;
-    int y;
+    public double x;
+    public double y;
 
-    public Vector2D(int x, int y) {
+    public Vector2D(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -19,7 +19,7 @@ public class Vector2D {
         this.y -= v.y;
     }
 
-    public void set(int x, int y) {
+    public void set(double x, double y) {
         this.x = x;
         this.y = y;
     }

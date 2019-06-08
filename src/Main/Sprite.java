@@ -36,21 +36,21 @@ public class Sprite {
         height = another.height;
     }
 
-    public void setPos(int x, int y) {
+    public void setPos(double x, double y) {
         pos.set(x, y);
     }
 
-    public void addVel(int x, int y) {
+    public void addVel(double x, double y) {
         vel.add(new Vector2D(x, y));
     }
 
-    public void subVel(int x, int y) {
+    public void subVel(double x, double y) {
         vel.sub(new Vector2D(x, y));
     }
 
     public Vector2D getVel() { return vel; }
 
-    public void setVel(int x, int y) {
+    public void setVel(double x, double y) {
         vel.set(x, y);
     }
 

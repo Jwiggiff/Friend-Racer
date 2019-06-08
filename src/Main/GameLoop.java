@@ -7,22 +7,28 @@ public class GameLoop extends AnimationTimer {
     static boolean jump = false;
     static boolean respawning = true;
     private long startGravityTime = -1;
-    private int respawnX = 10;
+    private long startTime = -1;
+    private int respawnX = 1650;
+    private int respawnY;
 
     public GameLoop(GameCanvas canvas) {
         this.start();
         this.canvas = canvas;
+        // normally 550 - canvas.player.getHeight()
+        respawnY = 410 - canvas.player.getHeight();
     }
 
     @Override
     public void handle(long currentTime) {
         if (!canvas.pause) {
             //TODO: Scroll world up and down
-            if (startGravityTime == -1) {
+            if (startTime == -1) {
+                startTime = currentTime;
                 startGravityTime = currentTime;
-                canvas.player.respawn(canvas, respawnX, canvas.gc, this);
+                canvas.player.respawn(canvas, respawnX, respawnY, this);
                 canvas.background.setPos(respawnX - 10, 0);
-                canvas.background.setVel(2, 0);
+                canvas.background.setVel(2.85, 0);
+                canvas.setTranslateY(-GameCanvas.diffHeight);
             }
 
             if (canvas.player.getPos().x >= 200 + respawnX) {
@@ -39,6 +45,9 @@ public class GameLoop extends AnimationTimer {
 
             canvas.player.erase(canvas.gc);
 
+            if (canvas.player.playerPlatformStatus(canvas.platforms)[0] == 0) {
+                startGravityTime = currentTime;
+            }
             //Run if player is floating above a platform
             if (canvas.player.playerPlatformStatus(canvas.platforms)[0] == -1) {
                 canvas.player.applyGravity(currentTime, startGravityTime);
@@ -52,7 +61,7 @@ public class GameLoop extends AnimationTimer {
                 if (canvas.player.intersects(obstacle)) {
                     canvas.setTranslateX(0);
                     canvas.background.setPos(0, 0);
-                    canvas.player.respawn(canvas, respawnX, canvas.gc, this);
+                    canvas.player.respawn(canvas, respawnX, respawnY, this);
                     canvas.background.setPos(respawnX - 10, 0);
                     respawning = true;
                     jump = false;
@@ -63,7 +72,7 @@ public class GameLoop extends AnimationTimer {
                 if (canvas.player.intersects(spinningObstacle)) {
                     canvas.setTranslateX(0);
                     canvas.background.setPos(0, 0);
-                    canvas.player.respawn(canvas, respawnX, canvas.gc, this);
+                    canvas.player.respawn(canvas, respawnX, respawnY, this);
                     canvas.background.setPos(respawnX - 10, 0);
                     respawning = true;
                     jump = false;
@@ -85,7 +94,6 @@ public class GameLoop extends AnimationTimer {
 
             //Run on each jump
             if (jump && !respawning) {
-                startGravityTime = currentTime;
                 canvas.player.jump();
                 jump = false;
             }

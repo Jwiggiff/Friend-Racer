@@ -29,16 +29,15 @@ public class Character extends Sprite {
     }
 
     //TODO: the canvas param is only for testing
-    public void respawn(Canvas canvas, int respawnX, GraphicsContext gc, AnimationTimer timer) {
+    public void respawn(Canvas canvas, int respawnX, int respawnY, AnimationTimer timer) {
         //TODO: make a flashing respawn - mario style!
         GameLoop.respawning = true;
         Timeline delay = createPauseTimerTimeline(timer, new Duration(1000));
 
-        this.setPos(respawnX, 550 - this.getHeight() + GameCanvas.diffHeight);
+        this.setPos(respawnX, respawnY + GameCanvas.diffHeight);
+        this.setVel(3, 0);
         canvas.setTranslateX(10 - respawnX);
 
-        this.setVel(3, 0);
-        this.render(gc);
         delay.playFromStart();
         delay.setOnFinished(event -> GameLoop.respawning = false);
     }
@@ -58,8 +57,8 @@ public class Character extends Sprite {
     public void jump() { this.addVel(0, -10); }
 
     public void applyGravity(long currentTime, long startGravityTime) {
-        if (this.getVel().y <= 30) {
-            this.addVel(0, (int) Math.round(4.5 * ((currentTime - startGravityTime) / 1000000000.0)));
+        if (this.getVel().y <= 15) {
+            this.addVel(0, 6 * ((currentTime - startGravityTime) / 1000000000.0));
         }
     }
 }
