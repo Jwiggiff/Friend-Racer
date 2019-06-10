@@ -19,6 +19,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 public class InstructionsLayout extends BorderPane {
     private Main app;
@@ -27,7 +30,7 @@ public class InstructionsLayout extends BorderPane {
             "The concept of Friend Racer is to overcome " +
                 "loneliness that is caused by social media." +
                 "Many teenagers can struggle with forms of " +
-                "loneliness and depression from social media." +
+                "loneliness and depression from social media. " +
                 "In Friend Racer, you will play as either a male " +
                 "or female character trying to overcome loneliness " +
                 "caused by social media. You will progress through three levels, " +
@@ -42,9 +45,9 @@ public class InstructionsLayout extends BorderPane {
                     "The third level is the same as the second, but with the addition of other people " +
                     "throughout the level that you can invite to your party. This will contribute to " +
                     "your character's number of friends.",
-            "SPACE.................................................Jump\n" +
-                    "I..............................................................Invite a Friend\n" +
-                    "ESCAPE..............................................Pause the Game",
+            "SPACE....................................................Jump\n" +
+                    "E..............................................................Pick up a Coin\n" +
+                    "I...............................................................Invite a Friend\n",
             "This game has three main objectives. These objectives are to make the correct decisions " +
                     "throughout the game, collect as many tips throughout the game, and invite as many " +
                     "friends as you can to your party. These are all separate scores that you will be able " +
@@ -54,12 +57,12 @@ public class InstructionsLayout extends BorderPane {
 
     public InstructionsLayout() {
         Label title = new Label("How to Play");
-        Font f = Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 50);
+        Font f = Font.font("! PEPSi !", 50);
         title.setFont(f);
         title.setTextFill(Color.ORANGE);
 
         Label subtitle = new Label(subtitles[curPage]);
-        Font f2 = Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 30);
+        Font f2 = Font.font("! PEPSi !", 30);
         subtitle.setFont(f2);
         subtitle.setTextFill(Color.ORANGE);
 
@@ -75,7 +78,7 @@ public class InstructionsLayout extends BorderPane {
 
         Text text = new Text(texts[curPage]);
         text.setWrappingWidth(450);
-        text.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 18));
+        text.setFont(Font.font("Baloo Bhai", 18));
         text.setFill(Color.WHITE);
         text.setTextAlignment(TextAlignment.CENTER);
 

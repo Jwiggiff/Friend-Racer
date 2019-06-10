@@ -2,17 +2,19 @@ package Main;
 
 import javafx.animation.AnimationTimer;
 
+import java.util.ArrayList;
+
 /**
- * This class is the AnimationTimer class for level 1.
+ * This class is the AnimationTimer class for level 2.
  *
- * @author Om Patel, Josh Friedman
- * @version 1 - June 2 - 1 hour - Josh Friedman - set up the structure of the class
- * @version 2 - June 6 - 3 hours - Om Patel - set up the checkpoints and the game mechanics like gravity and jumping
- * @version 3 - June 9 - 1 hour - Josh Friedman - set up the Decisions for the map
+ * @author Om Patel
+ * @version 1 - June 5 - 1 hour - Om Patel - set up the structure of the class
+ * @version 2 - June 7 - 3 hours - Om Patel - set up the checkpoints and the game mechanics like gravity and jumping
+ * @version 3 - June 9 - 1 hour - Josh Friedman - set up the Decisions and Tips for the map
  *
  * Variable             Type                Description
  * __________________________________________________________________
- * canvas               GameCanvas          This is the canvas for level 1
+ * canvas               GameCanvas2         This is the canvas for level 2
  * scene                GameScene           This is the game scene
  * jump                 boolean             This indicates whether or not the player has jumped
  * respawning           boolean             This indicates whether the player is respawning
@@ -25,9 +27,11 @@ import javafx.animation.AnimationTimer;
  * decisions            Decision[]          This is the array that stores the decisions
  * curDecision          int                 This stores the index of the current decision
  * showingDecision      boolean             Indicates whether a decision is being shown
+ * tips                 Tip[]               Stores the Tips for the level
+ * curTrip              int                 Stores the index for the current tip
  */
-public class GameLoop extends AnimationTimer {
-    private GameCanvas canvas;
+public class GameLoop2 extends AnimationTimer {
+    private GameCanvas2 canvas;
     private GameScene scene;
     public static boolean jump = false;
     public static boolean respawning = true;
@@ -35,65 +39,84 @@ public class GameLoop extends AnimationTimer {
     private long checkPoint1Time = -1;
     private long checkPoint2Time = -1;
     private long checkPoint3Time = -1;
-    private int respawnX =1;
+    private int respawnX = 10;
     private int respawnY;
     private Decision[] decisions = new Decision[3];
     private int curDecision = 0;
     public static boolean showingDecision = false;
+    public Tip[] tips = new Tip[3];
+    public int curTip = 0;
 
     /**
-     * This is the constructor for the GameLoop class.
+     * This is the constructor for the GameLoop2 class
      *
-     * @param canvas The GameCanvas for the animation
+     * @param canvas The canvas for level 2
      * @param scene The GameScene for the game
      */
-    public GameLoop(GameCanvas canvas, GameScene scene) {
+    public GameLoop2(GameCanvas2 canvas, GameScene scene) {
         this.start();
         this.canvas = canvas;
         this.scene = scene;
         respawnY = 550 - canvas.player.getHeight(); // normally 550
 
-        decisions[0] = new Decision("You walk into the cafeteria at lunch and you see some kids you know sitting together and laughing.", "Go sit with them", "Sit at your locker and play games on your phone", GameScene.gameGroup, canvas.player, canvas, null, null);
-        decisions[1] = new Decision("Your teacher tells your class to choose a partner for a project.", "Wait to see who's left", "Ask someone to be your partner", GameScene.gameGroup, canvas.player, canvas, null, null);
-        decisions[2] = new Decision("Your friend invites you to come see a movie.", "Tell them you'll be there", "Tell them you're busy and stay home",  GameScene.gameGroup, canvas.player, canvas, null, null);
+        decisions[0] = new Decision("You're at a party and you see someone across the room sitting by themselves.", "Ignore them and check Snapchat", "Talk to them", GameScene.gameGroup, canvas.player, null, canvas, null);
+        decisions[1] = new Decision("You walk into class on the first day of school. There is a group of kids already talking in the middle of the classroom.", "Go over and introduce yourself", "Sit in the corner and go on your phone", GameScene.gameGroup, canvas.player, null, canvas, null);
+        decisions[2] = new Decision("You are walking down the street and you see someone ahead walking in the opposite direction.", "Smile at them", "Pull out your phone and avoid eye contact", GameScene.gameGroup, canvas.player, null, canvas, null);
+
+        tips[0] = new Tip("It's always better to talk to someone who's by themself than to ignore their existence. Who knows, they might be your new best friend.", GameScene.gameGroup);
+        tips[1] = new Tip("Even if you don't know someone, even just a little smile can make both of your days better.", GameScene.gameGroup);
+        tips[2] = new Tip("Sometimes it's better to approach them instead of waiting for them to approach you.", GameScene.gameGroup);
     }
 
     /**
-     * This is the method that overrides the method in AnimationTimer,
-     * it is called every frame for the animation
+     * This method overrides the one in AnimationTimer, and is called every frame
      *
-     * @param currentTime The current system time
+     * @param currentTime The current system time in nanoseconds
      */
     @Override
     public void handle(long currentTime) {
+        //TODO: Scroll world up and down
         canvas.player.erase(canvas.gc);
 
         if (startGravityTime == -1) {
             startGravityTime = currentTime;
 
+            //FOR DEBUGGING
+            //canvas.setOriginalPositions(3605);
+            //canvas.resetSpritePositions();
+
             canvas.player.respawn(respawnY, this);
-            canvas.setTranslateY(-GameCanvas.diffHeight);
+            canvas.setTranslateY(-GameCanvas2.diffHeight);
         }
 
         if (canvas.player.intersects(canvas.gameOverStar)) {
             this.stop();
-            GameScene.onLvl1 = false;
+            GameScene.onLvl2 = false;
             GameScene.gameGroup.getChildren().remove(canvas);
-            scene.introLvl2();
+            scene.introLvl3();
         }
 
         if (checkPoint1Time == -1 && canvas.player.intersects(canvas.decisions.get(0))) {
             checkPoint1Time = currentTime;
-            canvas.setOriginalPositions(1640);
-            respawnY = 410 - canvas.player.getHeight();
+
+            //COMMENTED FOR DEBUGGING
+            canvas.setOriginalPositions(1050);
+
+            respawnY = 330 - canvas.player.getHeight();
         } else if (checkPoint2Time == -1 && canvas.player.intersects(canvas.decisions.get(1))) {
             checkPoint2Time = currentTime;
-            canvas.setOriginalPositions(2600 - 1640);
-            respawnY = 240 - canvas.player.getHeight();
+
+            //COMMENTED FOR DEBUGGING
+            canvas.setOriginalPositions(1740 - 1050);
+
+            respawnY = 430 - canvas.player.getHeight();
         } else if (checkPoint3Time == -1 && canvas.player.intersects(canvas.decisions.get(2))) {
             checkPoint3Time = currentTime;
-            canvas.setOriginalPositions(3605 - 2600);
-            respawnY = 380 - canvas.player.getHeight();
+
+            //COMMENTED FOR DEBUGGING
+            canvas.setOriginalPositions(2580 - 1740);
+
+            respawnY = 360 - canvas.player.getHeight();
         }
 
         if (!showingDecision) {
@@ -105,6 +128,8 @@ public class GameLoop extends AnimationTimer {
                 for (Sprite s : canvas.spinningObstacles)
                     s.setVel(-3, 0);
                 for (Sprite s : canvas.decisions)
+                    s.setVel(-3, 0);
+                for (Sprite s : canvas.tips)
                     s.setVel(-3, 0);
                 canvas.gameOverStar.setVel(-3, 0);
                 canvas.moveSprites();

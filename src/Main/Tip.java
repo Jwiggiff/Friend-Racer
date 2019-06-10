@@ -20,12 +20,12 @@ public class Tip {
     public Tip(String tip, Group parent) {
         this.tip = tip;
         this.parent = parent;
-        this.show();
     }
 
     public void show() {
-        StackPane layout = new StackPane();
+        VBox layout = new VBox(20);
         layout.setPrefSize(500,300);
+        layout.setMaxSize(500,300);
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setPadding(new Insets(10));
         layout.setLayoutX(400-layout.getPrefWidth()/2);
@@ -35,30 +35,35 @@ public class Tip {
 
         Text title = new Text("Here's a Tip");
         title.setFill(Color.WHITE);
-        title.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 30));
+        title.setFont(Font.font("! PEPSi !", 30));
         title.setTextAlignment(TextAlignment.CENTER);
 
         Text msg = new Text(tip);
         msg.setFill(Color.WHITE);
-        msg.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 18));
+        msg.setFont(Font.font("Baloo Bhai", 18));
         msg.setTextAlignment(TextAlignment.CENTER);
-        StackPane s = new StackPane();
-        s.getChildren().add(msg);
-        s.setAlignment(Pos.CENTER);
+        msg.setWrappingWidth(400);
 
         Button continueBtn = new Button("Continue");
         continueBtn.setTextAlignment(TextAlignment.CENTER);
         continueBtn.setTextFill(Color.WHITE);
         continueBtn.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT,CornerRadii.EMPTY,Insets.EMPTY)));
         continueBtn.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0))));
-        continueBtn.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 18));
+        continueBtn.setFont(Font.font("! PEPSi !", 18));
         continueBtn.setOnMouseEntered(e -> continueBtn.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
         continueBtn.setOnMouseExited(e -> continueBtn.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,0,5,0)))));
         continueBtn.setOnAction(e -> {
             parent.getChildren().remove(layout);
             Timeline t = new Timeline();
             t.getKeyFrames().add(
-                    new KeyFrame(Duration.seconds(3), event -> GameScene.gameLoop.start())
+                    new KeyFrame(Duration.seconds(3), event -> {
+                        if (GameScene.onLvl1)
+                            GameScene.gameLoop.start();
+                        else if (GameScene.onLvl2)
+                            GameScene.gameLoop2.start();
+                        else if (GameScene.onLvl3)
+                            GameScene.gameLoop3.start();
+                    })
             );
             t.playFromStart();
         });
@@ -66,9 +71,14 @@ public class Tip {
         footer.getChildren().add(continueBtn);
         footer.setAlignment(Pos.BOTTOM_CENTER);
 
-        layout.getChildren().addAll(title, s, footer);
+        layout.getChildren().addAll(title, msg, footer);
         parent.getChildren().add(layout);
 
-        GameScene.gameLoop.stop();
+        if (GameScene.onLvl1)
+            GameScene.gameLoop.stop();
+        else if (GameScene.onLvl2)
+            GameScene.gameLoop2.stop();
+        else if (GameScene.onLvl3)
+            GameScene.gameLoop3.stop();
     }
 }

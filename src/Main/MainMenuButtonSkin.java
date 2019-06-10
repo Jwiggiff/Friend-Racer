@@ -23,8 +23,7 @@ public class MainMenuButtonSkin extends ButtonSkin {
                 "-fx-text-fill: #00008B;"
         );
 
-        Font f = Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 35);
-        btn.setFont(f);
+        btn.setFont(Font.font("! PEPSI !", 35));
 
         btn.setPadding(new Insets(20));
 

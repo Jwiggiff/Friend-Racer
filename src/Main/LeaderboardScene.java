@@ -9,4 +9,8 @@ public class LeaderboardScene extends Scene {
         super(leaderboardLayout, windowWidth, windowHeight);
         leaderboardLayout.setApp(app);
     }
+
+    public void readLeaderboard() {
+        leaderboardLayout.readLeaderboardFile();
+    }
 }

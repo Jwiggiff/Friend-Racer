@@ -25,7 +25,7 @@ public class LeaderboardLayout extends VBox {
     Main app;
     ArrayList<LeaderboardEntry> entries = new ArrayList<LeaderboardEntry>();
     TableView tv;
-    private File leaderboardFile = new File(System.getProperty("user.home") + "\\Desktop\\Friend Racer Leaderboard\\leaderboard");
+    private File leaderboardFile = new File(System.getProperty("user.home") + "\\Desktop\\Friend Racer Leaderboard\\leaderboard.txt");
 
     public LeaderboardLayout() {
         super(10);
@@ -35,7 +35,7 @@ public class LeaderboardLayout extends VBox {
         tv = new TableView();
         tv.setMaxSize(500, 400);
         Text placeholderText = new Text("Be the first to save a highscore");
-        placeholderText.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(),18));
+        placeholderText.setFont(Font.font("! PEPSI !",18));
         placeholderText.setFill(Color.ORANGE);
         tv.setPlaceholder(placeholderText);
 
@@ -68,13 +68,13 @@ public class LeaderboardLayout extends VBox {
 
         Label title = new Label("Leaderboard");
 
-        Font f = Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 50);
+        Font f = Font.font("! PEPSi !", 50);
         title.setFont(f);
         title.setTextFill(Color.ORANGE);
         title.setAlignment(Pos.TOP_CENTER);
 
         Button clearBtn = new Button("Clear Leaderboard");
-        clearBtn.setFont(Font.loadFont(getClass().getClassLoader().getResource("res/pepsi_font.ttf").toString(), 18));
+        clearBtn.setFont(Font.font("! PEPSi !", 18));
         clearBtn.setBackground(Background.EMPTY);
         clearBtn.setTextFill(Color.BLUE);
         clearBtn.setBorder(new Border(new BorderStroke(Color.TRANSPARENT,BorderStrokeStyle.SOLID,CornerRadii.EMPTY,new BorderWidths(0,0,5,0))));
@@ -101,19 +101,22 @@ public class LeaderboardLayout extends VBox {
             entries.clear();
         if (tv != null)
             tv.getItems().clear();
-        if (!leaderboardFile.exists())
+        if (!leaderboardFile.exists()) {
             return;
+        }
         try {
             Scanner s = new Scanner(leaderboardFile);
             while (s.hasNext()) {
                 String l = s.nextLine();
-                String[] line = l.split(" ");
+                String[] line = l.split(":");
                 entries.add(new LeaderboardEntry(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), Integer.parseInt(line[3])));
             }
             s.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        if (tv != null)
+            tv.getItems().addAll(entries);
     }
 
     public void clearLeaderboard() {
