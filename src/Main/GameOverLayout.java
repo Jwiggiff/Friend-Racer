@@ -13,12 +13,23 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * This class is the layout class for the game over scene
+ *
+ * @author Josh Friedman
+ * @version 1 - June 8 - Josh Friedman - 1 hour - created the basic layout for the GameOverScene
+ * @version 2 - June 9 - Josh Friedman - 30 mins - styled the layout so that it looks good
+ */
 public class GameOverLayout extends StackPane {
     private Main app;
     private File leaderboardDir = new File(System.getProperty("user.home") + "\\Desktop\\Friend Racer Leaderboard");
     private File leaderboardFile = new File(System.getProperty("user.home") + "\\Desktop\\Friend Racer Leaderboard\\leaderboard.txt");
     Text scores;
 
+    /**
+     * This is the class constructor that creates all of the elements of the GameOverLayout
+     * and adds it to the StackPane.
+     */
     public GameOverLayout() {
         Text title = new Text("You Overcame Loneliness");
         title.setFill(Color.ORANGE);
@@ -54,14 +65,25 @@ public class GameOverLayout extends StackPane {
         this.getChildren().addAll(title, nameContent);
     }
 
+    /**
+     * This method updates the sentence that tells the player the scores.
+     */
     public void update() {
         scores.setText("You had "+GameScene.numDeaths+" deaths, picked up "+GameScene.numTips+" tips, and invited "+GameScene.numInvites+" people to your party.");
     }
 
+    /**
+     * This method sets the app variable
+     * @param app The app to set it to
+     */
     public void setApp(Main app) {
         this.app = app;
     }
 
+    /**
+     * This method writes the name and scores to the leaderboard file.
+     * @param name The name entered by the player
+     */
     private void writeLeaderboard(String name) {
         try {
             if (!leaderboardDir.exists())

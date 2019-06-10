@@ -13,6 +13,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * this is the layout for the main menu
+ */
 public class MainMenuLayout extends StackPane {
     private Main app;
 

@@ -23,6 +23,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
+/**
+ * This class is the layout for the InstructionsScene.
+ *
+ * @author Josh Friedman
+ * @version 1 - May 18 - Josh Friedman - 1.5 hours - Write each page of the instructions
+ * @version 2 - May 19 - Josh Friedman - 45 mins - Add the triangle buttons on either side to rotate through the pages
+ */
 public class InstructionsLayout extends BorderPane {
     private Main app;
     private String[] subtitles = {"Concept", "Levels", "Controls", "Objective"};
@@ -55,6 +62,10 @@ public class InstructionsLayout extends BorderPane {
     };
     private int curPage = 0;
 
+    /**
+     * This is the class constructor that creates all of the Nodes
+     * for the InstructionsLayout and adds them to the layout.
+     */
     public InstructionsLayout() {
         Label title = new Label("How to Play");
         Font f = Font.font("! PEPSi !", 50);
@@ -127,6 +138,10 @@ public class InstructionsLayout extends BorderPane {
         this.setCenter(content);
     }
 
+    /**
+     * This method sets the app instance variable
+     * @param app The app to set it to
+     */
     public void setApp(Main app) {
         this.app = app;
     }

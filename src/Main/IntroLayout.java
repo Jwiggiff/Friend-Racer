@@ -12,11 +12,21 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+/**
+ * This class is the layout for the IntroScene class
+ *
+ * @author Josh Friedman
+ * @version 1 - May 11 - Josh Friedman - 1 hour - create entire class with fade animations
+ */
 public class IntroLayout extends StackPane {
     private ImageView companyLogo;
     private ImageView gameLogo;
     private Main app;
 
+    /**
+     * This is the class constructor that creates all of the Nodes
+     * and adds them to the layout.
+     */
     public IntroLayout() {
         loadResources();
 
@@ -46,10 +56,18 @@ public class IntroLayout extends StackPane {
         fade2.setOnFinished(e -> app.setMainMenuScene());
     }
 
+    /**
+     * This method sets the app instance variable.
+     *
+     * @param app The app to set it to
+     */
     public void setApp(Main app) {
         this.app = app;
     }
 
+    /**
+     * Loads the various resources needed for the intro
+     */
     private void loadResources() {
         companyLogo = new ImageView(new Image(getClass().getClassLoader().getResource("res/company_logo.png").toString()));
         gameLogo = new ImageView(new Image(getClass().getClassLoader().getResource("res/game_logo.png").toString()));

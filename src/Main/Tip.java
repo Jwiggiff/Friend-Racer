@@ -13,15 +13,30 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+/**
+ * This is the Tip class that creates the tip popup.
+ *
+ * @author Josh Friedman
+ * @version 1 - May 30 - Josh Friedman - 1.5 hours - created entire class.
+ */
 public class Tip {
     private String tip;
     private Group parent;
 
+    /**
+     * This is the class constructor that sets all of the instance variables.
+     *
+     * @param tip The tip message
+     * @param parent The group to add the popup to
+     */
     public Tip(String tip, Group parent) {
         this.tip = tip;
         this.parent = parent;
     }
 
+    /**
+     * This method shows the popup.
+     */
     public void show() {
         VBox layout = new VBox(20);
         layout.setPrefSize(500,300);

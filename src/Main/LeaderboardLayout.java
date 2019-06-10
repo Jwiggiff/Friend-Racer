@@ -21,12 +21,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * This class is the layout for the LeaderboardScene
+ *
+ * @author Josh Friedman
+ * @version 1 - June 2 - Josh Friedman - 1 hour - Created general layout and style it
+ * @version 2 - June 8 - Josh Friedman - 1.5 hours - Created styles for the table
+ */
 public class LeaderboardLayout extends VBox {
     Main app;
     ArrayList<LeaderboardEntry> entries = new ArrayList<LeaderboardEntry>();
     TableView tv;
     private File leaderboardFile = new File(System.getProperty("user.home") + "\\Desktop\\Friend Racer Leaderboard\\leaderboard.txt");
 
+    /**
+     * This is the class constructor that creates all the Nodes
+     * and adds them to the layout.
+     */
     public LeaderboardLayout() {
         super(10);
 
@@ -92,10 +103,18 @@ public class LeaderboardLayout extends VBox {
         this.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
+    /**
+     * This method sets the app isntance variable.
+     *
+     * @param app The app to set it to
+     */
     public void setApp(Main app) {
         this.app = app;
     }
 
+    /**
+     * This method reads the leaderboard file and adds the information to the table.
+     */
     public void readLeaderboardFile() {
         if (entries.size()>0)
             entries.clear();
@@ -119,6 +138,9 @@ public class LeaderboardLayout extends VBox {
             tv.getItems().addAll(entries);
     }
 
+    /**
+     * This method clears the leaderboard file.
+     */
     public void clearLeaderboard() {
         if (!leaderboardFile.exists())
             return;

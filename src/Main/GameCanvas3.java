@@ -30,7 +30,6 @@ import java.util.ArrayList;
  *  diffHeight           int                 This is the difference between the window's and canvas's height
  */
 public class GameCanvas3 extends Canvas {
-    //TODO: make all instance variables private and make getters and setters
     public GraphicsContext gc;
     public Character player;
     public ArrayList<Sprite> platforms = new ArrayList<Sprite>();
